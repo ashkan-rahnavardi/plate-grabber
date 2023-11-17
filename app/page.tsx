@@ -5,8 +5,8 @@ export default function Home() {
 	return (
 		<div>
 			<h1>My Next.js Camera App</h1>
-			{/* <Camera /> */}
-			<Cam />
+			<Camera />
+			{/* <Cam /> */}
 		</div>
 	);
 }
