@@ -1,4 +1,3 @@
-import Cam from './cam';
 import Camera from './camera';
 
 export default function Home() {
@@ -6,7 +5,6 @@ export default function Home() {
 		<div>
 			<h1>My Next.js Camera App</h1>
 			<Camera />
-			{/* <Cam /> */}
 		</div>
 	);
 }
