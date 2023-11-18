@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 
 const Camera: React.FC = () => {
@@ -8,12 +8,11 @@ const Camera: React.FC = () => {
 	const [capturedImage, setCapturedImage] = useState<string | null>(null);
 
 	const videoConstraints = {
-		facingMode: { exact: 'environment' },
+		// facingMode: 'environment',
+		facingMode: { ideal: 'environment' },
 	};
 
 	const capture = useCallback(() => {
-		// const imageSrc = webcamRef.current?.getScreenshot();
-		// setCapturedImage(imageSrc);
 		if (webcamRef.current) {
 			const imageSrc = webcamRef.current.getScreenshot();
 			setCapturedImage(imageSrc);
