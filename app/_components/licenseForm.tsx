@@ -115,7 +115,7 @@ export default function LicenseForm() {
 			</div>
 			<div className={divStyle}>
 				<label className={labelStyle} htmlFor="sign_wording">
-					Sign Wording / Decals to Read:{' '}
+					Sign Wording:{' '}
 				</label>
 				<input
 					className={inputStyle}
