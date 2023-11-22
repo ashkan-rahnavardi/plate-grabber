@@ -118,23 +118,12 @@ const ProCam = () => {
 	const apiCall = async () => {
 		if (image) {
 			try {
-				const formData = new FormData();
-				formData.append('upload', image);
-				formData.append('regions', 'us-ca');
-
-				const apiResponse = await fetch(
-					'https://api.platerecognizer.com/v1/plate-reader/',
-					{
-						method: 'POST',
-						headers: {
-							Authorization: 'Token 4de9595d86f37e3d59b0d8473071281df2263df3',
-						},
-						body: formData,
-					}
-				);
-				const jsonResponse = await apiResponse.json();
-
-				const plate = jsonResponse.results[0].plate;
+				const response = await fetch('/api', {
+					method: 'POST',
+					body: JSON.stringify({ image: image }),
+				});
+				const jsonResponse = await response.json();
+				const plate = jsonResponse.plate;
 				setInfo(plate);
 			} catch (error) {
 				console.log(error);
