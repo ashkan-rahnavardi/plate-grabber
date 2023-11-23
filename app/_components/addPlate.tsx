@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const Modal = ({ closeModal }: { closeModal: () => void }) => {
+export default function AddPlate({ closeModal }: { closeModal: () => void }) {
 	const [currentBlock, setCurrentBlock] = useState('');
 	const router = useRouter();
 
@@ -55,25 +55,5 @@ const Modal = ({ closeModal }: { closeModal: () => void }) => {
 				</div>
 			</div>
 		</div>
-	);
-};
-
-export default function AddPlate({ closeModal }: { closeModal: () => void }) {
-	const [showModal, setShowModal] = useState(false);
-
-	return (
-		<>
-			<button
-				className="bg-black text-white py-2 px-4 rounded"
-				type="button"
-				onClick={() => {
-					setShowModal(true);
-				}}
-			>
-				Add Plate
-			</button>
-
-			{showModal && <Modal closeModal={() => setShowModal(false)} />}
-		</>
 	);
 }

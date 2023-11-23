@@ -15,9 +15,7 @@ export default function Dashboard() {
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
 	const [showModal, setShowModal] = useState(false);
 
-	const [savedPlates, setSavedPlates] = useState(
-		localStorage.getItem('plates') || '{}'
-	);
+	// const [savedPlates, setSavedPlates] = useState(localStorage.getItem('plates'));
 
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
@@ -57,9 +55,15 @@ export default function Dashboard() {
 				{isFormVisible ? 'Hide Plates' : 'Show Plates'}
 			</button>
 
-			{isPlatesVisible && (
-				<ViewPlates plates={savedPlates} setPlates={setSavedPlates} />
-			)}
+			{isPlatesVisible && <ViewPlates />}
+			{/* <div className="mb-4 flex items-center justify-center">
+				<Link
+					href="/add-plates"
+					className="bg-black text-white py-2 px-4 rounded"
+				>
+					View/Edit Plates
+				</Link>
+			</div> */}
 			<div className="mb-4 flex items-center justify-center">
 				<button
 					className="bg-black text-white py-2 px-4 rounded"

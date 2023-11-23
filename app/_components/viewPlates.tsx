@@ -1,12 +1,14 @@
 'use client';
 
-export default function ViewPlates({
-	plates,
-	setPlates,
-}: {
-	plates: string;
-	setPlates: (plates: string) => void;
-}) {
+import { use, useEffect, useState } from 'react';
+
+export default function ViewPlates() {
+	const [plates, setPlates] = useState('{}');
+
+	useEffect(() => {
+		setPlates(localStorage.getItem('plates') || '{}');
+	}, [plates]);
+
 	let platesJSON = JSON.parse(plates || '{}');
 
 	let platesString = JSON.stringify(platesJSON);
