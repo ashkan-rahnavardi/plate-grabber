@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import AddPlate from './_components/addPlate';
 import LicenseForm from './_components/licenseForm';
 
 // To Do: Make view plate in a dropdown like form
-// To Do: Make button link to add plate page
+// To Do: Save button for form
+// View saved forms
 
 export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
@@ -50,12 +52,7 @@ export default function Dashboard() {
 				</Link>
 			</div>
 			<div className="mb-4 flex items-center justify-center">
-				<Link
-					href="/add-plates"
-					className="bg-black text-white py-2 px-4 rounded"
-				>
-					Add Plates
-				</Link>
+				<AddPlate />
 			</div>
 		</div>
 	);

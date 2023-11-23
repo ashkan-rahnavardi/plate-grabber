@@ -93,7 +93,7 @@ export default function LicenseForm() {
 			</div>
 			<div className="input-container">
 				<label className="label-style" htmlFor="road_type">
-					Road Type{' '}
+					Road Type:{' '}
 				</label>
 				<select
 					id="road_type"
