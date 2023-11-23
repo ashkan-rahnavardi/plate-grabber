@@ -58,7 +58,7 @@ const Modal = ({ closeModal }: { closeModal: () => void }) => {
 	);
 };
 
-export default function AddPlate() {
+export default function AddPlate({ closeModal }: { closeModal: () => void }) {
 	const [showModal, setShowModal] = useState(false);
 
 	return (

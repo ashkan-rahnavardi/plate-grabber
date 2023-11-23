@@ -27,7 +27,6 @@ export async function POST(request: Request) {
 
 		return NextResponse.json({ plate: plate });
 	} catch (error) {
-		console.log(error);
-		return NextResponse.json(error);
+		return NextResponse.json({ plate: 'Plate not found' });
 	}
 }

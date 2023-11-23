@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import AddPlate from './_components/addPlate';
 import LicenseForm from './_components/licenseForm';
+import ViewPlates from './_components/viewPlates';
 
 // To Do: Make view plate in a dropdown like form
 // To Do: Save button for form
@@ -11,6 +12,12 @@ import LicenseForm from './_components/licenseForm';
 
 export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
+	const [isPlatesVisible, setPlatesVisibility] = useState(true);
+	const [showModal, setShowModal] = useState(false);
+
+	const [savedPlates, setSavedPlates] = useState(
+		localStorage.getItem('plates') || '{}'
+	);
 
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
@@ -43,17 +50,28 @@ export default function Dashboard() {
 					Clear form
 				</button>
 			</div>
+			<button
+				className="bg-black text-white py-2 px-4 rounded mb-4"
+				onClick={() => setPlatesVisibility(!isPlatesVisible)}
+			>
+				{isFormVisible ? 'Hide Plates' : 'Show Plates'}
+			</button>
+
+			{isPlatesVisible && (
+				<ViewPlates plates={savedPlates} setPlates={setSavedPlates} />
+			)}
 			<div className="mb-4 flex items-center justify-center">
-				<Link
-					href="/add-plates"
+				<button
 					className="bg-black text-white py-2 px-4 rounded"
+					type="button"
+					onClick={() => {
+						setShowModal(true);
+					}}
 				>
-					View/Edit Plates
-				</Link>
+					Add Plate
+				</button>
 			</div>
-			<div className="mb-4 flex items-center justify-center">
-				<AddPlate />
-			</div>
+			{showModal && <AddPlate closeModal={() => setShowModal(false)} />}
 		</div>
 	);
 }
