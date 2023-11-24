@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import AddPlate from './_components/addPlate';
 import LicenseForm from './_components/licenseForm';
@@ -14,8 +13,6 @@ export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
 	const [showModal, setShowModal] = useState(false);
-
-	// const [savedPlates, setSavedPlates] = useState(localStorage.getItem('plates'));
 
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
@@ -56,14 +53,6 @@ export default function Dashboard() {
 			</button>
 
 			{isPlatesVisible && <ViewPlates />}
-			{/* <div className="mb-4 flex items-center justify-center">
-				<Link
-					href="/add-plates"
-					className="bg-black text-white py-2 px-4 rounded"
-				>
-					View/Edit Plates
-				</Link>
-			</div> */}
 			<div className="mb-4 flex items-center justify-center">
 				<button
 					className="bg-black text-white py-2 px-4 rounded"
