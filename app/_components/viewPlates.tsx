@@ -11,9 +11,10 @@ interface PlatesData {
 export default function ViewPlates() {
 	const [plates, setPlates] = useState<PlatesData>({});
 
-	let storedForm = JSON.parse(localStorage.getItem('current') || '{}');
+	let storedForm = {};
 
 	useEffect(() => {
+		storedForm = JSON.parse(localStorage.getItem('current') || '{}');
 		setPlates(storedForm['plates'] || {});
 	}, []);
 

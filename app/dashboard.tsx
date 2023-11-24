@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import AddPlate from './_components/addPlate';
 import LicenseForm from './_components/licenseForm';
+import SaveForm from './_components/saveFrom';
+import SavedForms from './_components/savedForms';
 import ViewPlates from './_components/viewPlates';
 
 // To Do: Make view plate in a dropdown like form
@@ -60,8 +62,10 @@ export default function Dashboard() {
 				>
 					Add Plate
 				</button>
+				<SaveForm />
 			</div>
 			{showModal && <AddPlate closeModal={() => setShowModal(false)} />}
+			<SavedForms />
 		</div>
 	);
 }

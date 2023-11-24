@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 
 export default function SaveForm() {
@@ -8,5 +10,59 @@ export default function SaveForm() {
 
 	const handleSave = () => {
 		const currentForm = JSON.parse(localStorage.getItem('current') || '{}');
+		const reference = currentForm['reference'] || '';
+
+		requiredFields.forEach((field) => {
+			if (!(field in currentForm)) {
+				setErrorSaving(true);
+			}
+		});
+
+		if (!errorSaving) {
+			localStorage.setItem(reference, JSON.stringify(currentForm));
+			setShowModal(true);
+		}
 	};
+
+	const Modal = () => {
+		return (
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+				<div className="bg-white p-8 rounded-md">
+					{errorSaving && (
+						<div className="text-red-500 mb-4">
+							Please fill in all required fields
+						</div>
+					)}
+					{!errorSaving && (
+						<div className="text-green-500 mb-4">Form saved successfully</div>
+					)}
+					<div className="flex justify-around mt-4">
+						<button
+							className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+							onClick={() => {
+								setShowModal(false);
+								setErrorSaving(false);
+							}}
+						>
+							Continue
+						</button>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	return (
+		<>
+			{showModal && <Modal />}
+			<button
+				className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+				onClick={() => {
+					handleSave();
+				}}
+			>
+				Save
+			</button>
+		</>
+	);
 }
