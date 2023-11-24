@@ -3,14 +3,19 @@
 import { useEffect, useState } from 'react';
 
 /// ...
+
+interface PlatesData {
+	[key: string]: string[];
+}
+
 export default function ViewPlates() {
-	const [plates, setPlates] = useState('{}');
+	const [plates, setPlates] = useState<PlatesData>({});
+
+	let storedForm = JSON.parse(localStorage.getItem('current') || '{}');
 
 	useEffect(() => {
-		setPlates(localStorage.getItem('plates') || '{}');
-	}, [plates]);
-
-	let platesJSON = JSON.parse(plates || '{}') as Record<string, string[]>;
+		setPlates(storedForm['plates'] || {});
+	}, []);
 
 	const handlePlateChange = (
 		blockNumber: string,
@@ -18,12 +23,13 @@ export default function ViewPlates() {
 		newValue: string
 	) => {
 		// Update the plate value in the state
-		const updatedPlates = { ...platesJSON };
+		const updatedPlates = { ...plates };
 		updatedPlates[blockNumber][plateIndex] = newValue;
-		setPlates(JSON.stringify(updatedPlates));
+		setPlates(updatedPlates);
+		storedForm['plates'] = updatedPlates;
 
 		// Update the plate value in local storage
-		localStorage.setItem('plates', JSON.stringify(updatedPlates));
+		localStorage.setItem('current', JSON.stringify(storedForm));
 	};
 
 	return (
@@ -37,7 +43,7 @@ export default function ViewPlates() {
 					</tr>
 				</thead>
 				<tbody>
-					{Object.entries(platesJSON).map(([blockNumber, plateArray]) => (
+					{Object.entries(plates).map(([blockNumber, plateArray]) => (
 						<tr key={blockNumber}>
 							<td>{blockNumber}</td>
 							<td>

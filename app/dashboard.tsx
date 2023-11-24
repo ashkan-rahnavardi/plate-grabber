@@ -14,12 +14,12 @@ export default function Dashboard() {
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
 	const [showModal, setShowModal] = useState(false);
 
+	const [form, setForm] = useState('current');
+
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
 		Object.keys(localStorage).forEach((key) => {
-			if (key !== 'signature' && key !== 'crew_initials') {
-				localStorage.removeItem(key);
-			}
+			localStorage.removeItem(key);
 		});
 
 		// Reload the form to reflect the changes
@@ -27,7 +27,7 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div className="p-4">
+		<div className="p-4 flex flex-col">
 			<button
 				className="bg-black text-white py-2 px-4 rounded mb-4"
 				onClick={() => setFormVisibility(!isFormVisible)}
@@ -35,27 +35,24 @@ export default function Dashboard() {
 				{isFormVisible ? 'Hide Form' : 'Show Form'}
 			</button>
 
-			{isFormVisible && <LicenseForm />}
-
-			<div className="mb-4 flex items-center justify-center">
-				<button
-					className="bg-red-500 text-white py-2 px-4 rounded"
-					onClick={handleClearLocalStorage}
-				>
-					Clear form
-				</button>
-			</div>
+			{isFormVisible && <LicenseForm form={form} />}
 			<button
 				className="bg-black text-white py-2 px-4 rounded mb-4"
 				onClick={() => setPlatesVisibility(!isPlatesVisible)}
 			>
-				{isFormVisible ? 'Hide Plates' : 'Show Plates'}
+				{isPlatesVisible ? 'Hide Plates' : 'Show Plates'}
 			</button>
 
 			{isPlatesVisible && <ViewPlates />}
 			<div className="mb-4 flex items-center justify-center">
 				<button
-					className="bg-black text-white py-2 px-4 rounded"
+					className="bg-red-500 text-white py-2 px-4 rounded mx-2"
+					onClick={handleClearLocalStorage}
+				>
+					Clear form
+				</button>
+				<button
+					className="bg-black text-white py-2 px-4 rounded mx-2"
 					type="button"
 					onClick={() => {
 						setShowModal(true);

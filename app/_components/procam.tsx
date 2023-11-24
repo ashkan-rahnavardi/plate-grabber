@@ -22,7 +22,13 @@ const Modal = ({
 	setPlate: (plate: string) => void;
 }) => {
 	const updatePlate = (plate: string, block: string) => {
-		let plates = JSON.parse(localStorage.getItem('plates') || '{}');
+		let storedForm = JSON.parse(localStorage.getItem('current') || '{}');
+
+		if (!storedForm['plates']) {
+			storedForm['plates'] = {};
+		}
+
+		let plates = storedForm['plates'];
 
 		// Check if the current block exists in local storage, and add it if it doesn't
 		if (!plates[block]) {
@@ -38,7 +44,7 @@ const Modal = ({
 			currentBlockPlates.push(plate);
 
 			// Update the plates in local storage
-			localStorage.setItem('plates', JSON.stringify(plates));
+			localStorage.setItem('current', JSON.stringify(storedForm));
 		}
 
 		localStorage.setItem('current-block', block);
