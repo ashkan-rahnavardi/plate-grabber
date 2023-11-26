@@ -3,7 +3,13 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function AddPlate({ closeModal }: { closeModal: () => void }) {
+export default function AddPlate({
+	closeModal,
+	storageHelper,
+}: {
+	closeModal: () => void;
+	storageHelper: any;
+}) {
 	const [currentBlock, setCurrentBlock] = useState('');
 	const router = useRouter();
 

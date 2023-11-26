@@ -2,26 +2,13 @@
 
 import { useState } from 'react';
 
-export default function SaveForm() {
+export default function SaveForm({ storageHelper }: { storageHelper: any }) {
 	const [showModal, setShowModal] = useState(false);
 	const [errorSaving, setErrorSaving] = useState(false);
 
-	const requiredFields = ['reference', 'street/lane'];
-
 	const handleSave = () => {
-		const currentForm = JSON.parse(localStorage.getItem('current') || '{}');
-		const reference = currentForm['reference'] || '';
-
-		requiredFields.forEach((field) => {
-			if (!(field in currentForm)) {
-				setErrorSaving(true);
-			}
-		});
-
-		if (!errorSaving) {
-			localStorage.setItem(reference, JSON.stringify(currentForm));
-			setShowModal(true);
-		}
+		setErrorSaving(!storageHelper.saveCurrentForm());
+		setShowModal(true);
 	};
 
 	const Modal = () => {

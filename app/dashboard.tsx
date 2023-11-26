@@ -6,6 +6,7 @@ import LicenseForm from './_components/licenseForm';
 import SaveForm from './_components/saveFrom';
 import SavedForms from './_components/savedForms';
 import ViewPlates from './_components/viewPlates';
+import StorageHelper from './_helper/storageHelper';
 
 // To Do: Make view plate in a dropdown like form
 // To Do: Save button for form
@@ -17,6 +18,16 @@ export default function Dashboard() {
 	const [showModal, setShowModal] = useState(false);
 
 	const [form, setForm] = useState('current');
+
+	const storageHelper = new StorageHelper();
+
+	const forms = storageHelper.getFormsList();
+
+	const currentForm = storageHelper.getFormById('current');
+
+	console.log(currentForm);
+
+	console.log(forms);
 
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
@@ -37,7 +48,7 @@ export default function Dashboard() {
 				{isFormVisible ? 'Hide Form' : 'Show Form'}
 			</button>
 
-			{isFormVisible && <LicenseForm form={form} />}
+			{isFormVisible && <LicenseForm storageHelper={storageHelper} />}
 			<button
 				className="bg-black text-white py-2 px-4 rounded mb-4"
 				onClick={() => setPlatesVisibility(!isPlatesVisible)}
@@ -62,9 +73,14 @@ export default function Dashboard() {
 				>
 					Add Plate
 				</button>
-				<SaveForm />
+				<SaveForm storageHelper={storageHelper} />
 			</div>
-			{showModal && <AddPlate closeModal={() => setShowModal(false)} />}
+			{showModal && (
+				<AddPlate
+					closeModal={() => setShowModal(false)}
+					storageHelper={storageHelper}
+				/>
+			)}
 			<SavedForms />
 		</div>
 	);

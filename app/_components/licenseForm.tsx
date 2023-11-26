@@ -6,61 +6,31 @@ import { useEffect } from 'react';
 
 // TODO: fix time input
 
-export default function LicenseForm({ form }: { form: string }) {
+export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
 		const { name, value } = event.target;
-
-		// Load the existing form from localStorage or initialize an empty form
-		const storedForm = JSON.parse(localStorage.getItem('current') || '{}');
-
-		// Update the corresponding property in the form
-		storedForm[name] = value;
-
-		// Store the updated form in localStorage
-		localStorage.setItem('current', JSON.stringify(storedForm));
-
-		console.log(name, value);
+		storageHelper.updateFormProperty(name, value);
 	};
 
-	const loadValuesFromLocalStorage = () => {
+	const loadForm = () => {
 		const inputElements = document.querySelectorAll('input, select, textarea');
+		const form = storageHelper.getFormById('current');
 
-		inputElements.forEach((inputElement) => {
-			const name = inputElement.getAttribute('name');
+		inputElements.forEach((element) => {
+			const name = element.getAttribute('name');
 			if (name) {
-				// Load the form from localStorage or initialize an empty form
-				const storedForm = JSON.parse(localStorage.getItem(form) || '{}');
-
-				// Check if the property exists in the stored form
-				if (name in storedForm) {
-					// Update the input value with the stored value
-					inputElement.setAttribute('value', storedForm[name]);
+				if (name in form) {
+					element.setAttribute('value', form[name]);
 				}
 			}
 		});
 	};
 
-	// // Function to load values from localStorage
-	// const loadValuesFromLocalStorage = () => {
-	// 	const inputElements = document.querySelectorAll('input, select, textarea');
-
-	// 	inputElements.forEach((inputElement) => {
-	// 		const name = inputElement.getAttribute('name');
-	// 		if (name) {
-	// 			const storedValue = localStorage.getItem(name);
-	// 			if (storedValue !== null) {
-	// 				inputElement.setAttribute('value', storedValue);
-	// 			}
-	// 		}
-	// 	});
-	// };
-
 	useEffect(() => {
-		// Call the function to load values when the component mounts
-		loadValuesFromLocalStorage();
-	}, []); // Empty dependency array ensures this effect runs only once when the component mounts
+		loadForm();
+	}, []);
 
 	return (
 		<div className="flex-col p-4">
