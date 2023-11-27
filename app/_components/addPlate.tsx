@@ -19,8 +19,11 @@ export default function AddPlate({
 			alert('Please enter a value for Current Block');
 			return;
 		}
-		// Save the value to local storage
-		localStorage.setItem('current-block', currentBlock);
+
+		storageHelper.setCurrentBlock(currentBlock);
+
+		// // Save the value to local storage
+		// localStorage.setItem('current-block', currentBlock);
 
 		// Close the modal
 		closeModal();

@@ -7,6 +7,7 @@ interface LicenseForm {
 	reference: string;
 	sides: string;
 	hundred_blocks: string;
+	current_block: string;
 	street: string;
 	road_type: string;
 	sign_wording: string;
@@ -34,6 +35,7 @@ class StorageHelper {
 				reference: '',
 				sides: '',
 				hundred_blocks: [''],
+				current_block: '',
 				street: '',
 				road_type: '',
 				sign_wording: '',
@@ -108,15 +110,113 @@ class StorageHelper {
 		}
 	}
 
-	updatePlates(block: string, plate: string) {
+	setCurrentBlock(block: string) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
 		if (currentForm) {
-			currentForm.plates[block].push(plate);
+			currentForm.current_block = block;
 			this.setForms(forms);
 		}
 	}
+
+	getCurrentBlock(): string {
+		const forms = this.getForms();
+		const currentForm = forms.find((form) => form.id === 'current');
+
+		if (currentForm) {
+			return currentForm.current_block;
+		}
+
+		return '';
+	}
+
+	addPlates(block: string, plate: string) {
+		const forms = this.getForms();
+		const currentForm = forms.find((form) => form.id === 'current');
+
+		if (currentForm) {
+			if (!currentForm.plates[block]) {
+				currentForm.plates[block] = [];
+			}
+			if (!currentForm.plates[block].includes(plate)) {
+				currentForm.plates[block].push(plate);
+			}
+			this.setForms(forms);
+		}
+	}
+
+	updatePlate(block: string, plate: string, index: number) {
+		const forms = this.getForms();
+		const currentForm = forms.find((form) => form.id === 'current');
+
+		if (currentForm) {
+			currentForm.plates[block][index] = plate;
+			this.setForms(forms);
+		}
+	}
+
+	getPlates() {
+		const forms = this.getForms();
+		const currentForm = forms.find((form) => form.id === 'current');
+
+		if (currentForm) {
+			if (currentForm.plates['']) {
+				delete currentForm.plates[''];
+				this.setForms(forms);
+			}
+			return currentForm.plates;
+		}
+
+		return {};
+	}
+
+	getFormIDs(): string[] {
+		const forms = this.getForms();
+
+		let ids = forms
+			.map((form) => {
+				return form.id;
+			})
+			.filter((id) => id !== 'current');
+
+		return ids;
+	}
+
+	changeCurrentForm(formId: string): void {
+		const forms = this.getForms();
+		const targetForm = forms.find((form) => form.id === formId);
+		const currentFormIndex = forms.findIndex((form) => form.id === 'current');
+
+		if (targetForm !== undefined && currentFormIndex !== -1) {
+			forms[currentFormIndex] = { ...targetForm };
+			forms[currentFormIndex].id = 'current';
+			this.setForms(forms);
+		}
+	}
+
+	// changeCurrentForm(formId: string): void {
+	// 	const forms = this.getForms();
+	// 	const targetForm = forms.find((form) => form.id === formId);
+	// 	const currentFormIndex = forms.findIndex((form) => form.id === 'current');
+
+	// 	if (targetForm !== undefined && currentFormIndex !== -1) {
+	// 		forms[currentFormIndex] = { ...targetForm, id: 'current' };
+	// 		this.setForms(forms);
+	// 	}
+	// }
+
+	// changeCurrentForm(formId: string): void {
+
+	// 	const forms = this.getForms();
+	// 	const targetForm = forms.find((form) => form.id === formId);
+	// 	let currentForm = forms.find((form) => form.id === 'current');
+
+	// 	if (targetForm && currentForm) {
+	// 		currentForm = { ...targetForm };
+	// 		this.setForms(forms);
+	// 	}
+	// }
 }
 
 export default StorageHelper;

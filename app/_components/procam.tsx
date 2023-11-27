@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { Camera, CameraType } from 'react-camera-pro';
+import StorageHelper from '../_helper/storageHelper';
 
 // TO DO: finish converting styled comp to tailwind
 
@@ -13,6 +14,7 @@ const Modal = ({
 	image,
 	setCurrentBlock,
 	setPlate,
+	storageHelper,
 }: {
 	closeModal: () => void;
 	plate: string;
@@ -20,35 +22,10 @@ const Modal = ({
 	currentBlock: string;
 	setCurrentBlock: (currentBlock: string) => void;
 	setPlate: (plate: string) => void;
+	storageHelper: StorageHelper;
 }) => {
 	const updatePlate = (plate: string, block: string) => {
-		let storedForm = JSON.parse(localStorage.getItem('current') || '{}');
-
-		if (!storedForm['plates']) {
-			storedForm['plates'] = {};
-		}
-
-		let plates = storedForm['plates'];
-
-		// Check if the current block exists in local storage, and add it if it doesn't
-		if (!plates[block]) {
-			plates[block] = [];
-		}
-
-		// Get the array of plates for the current block
-		const currentBlockPlates = plates[block];
-
-		// Check if the plate already exists in the array
-		if (!currentBlockPlates.includes(plate)) {
-			// If not, add the plate to the array
-			currentBlockPlates.push(plate);
-
-			// Update the plates in local storage
-			localStorage.setItem('current', JSON.stringify(storedForm));
-		}
-
-		localStorage.setItem('current-block', block);
-
+		storageHelper.addPlates(block, plate);
 		closeModal();
 	};
 
@@ -108,9 +85,11 @@ const Modal = ({
 };
 
 const ProCam = () => {
+	const storageHelper = new StorageHelper();
+
 	const [image, setImage] = useState<string>('');
 	const [currentBlock, setCurrentBlock] = useState<string>(
-		localStorage.getItem('current-block') || ''
+		storageHelper.getCurrentBlock()
 	);
 	const [plate, setPlate] = useState<string>('');
 	const camera = useRef<CameraType>(null);
@@ -155,6 +134,7 @@ const ProCam = () => {
 						plate={plate}
 						currentBlock={currentBlock}
 						image={image}
+						storageHelper={storageHelper}
 					/>
 				)}
 				<Camera

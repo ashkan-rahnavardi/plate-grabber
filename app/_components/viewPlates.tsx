@@ -8,15 +8,8 @@ interface PlatesData {
 	[key: string]: string[];
 }
 
-export default function ViewPlates() {
-	const [plates, setPlates] = useState<PlatesData>({});
-
-	let storedForm = {};
-
-	useEffect(() => {
-		storedForm = JSON.parse(localStorage.getItem('current') || '{}');
-		setPlates(storedForm['plates'] || {});
-	}, []);
+export default function ViewPlates({ storageHelper }: { storageHelper: any }) {
+	const [plates, setPlates] = useState<PlatesData>(storageHelper.getPlates());
 
 	const handlePlateChange = (
 		blockNumber: string,
@@ -26,11 +19,17 @@ export default function ViewPlates() {
 		// Update the plate value in the state
 		const updatedPlates = { ...plates };
 		updatedPlates[blockNumber][plateIndex] = newValue;
-		setPlates(updatedPlates);
-		storedForm['plates'] = updatedPlates;
 
-		// Update the plate value in local storage
-		localStorage.setItem('current', JSON.stringify(storedForm));
+		setPlates(updatedPlates);
+
+		storageHelper.updatePlate(blockNumber, newValue, plateIndex);
+
+		// storedForm['plates'] = updatedPlates;
+
+		// // Update the plate value in local storage
+		// localStorage.setItem('current', JSON.stringify(storedForm));
+
+		// storageHelper.updatePlate(blockNumber, newValue);
 	};
 
 	return (

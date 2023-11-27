@@ -16,6 +16,7 @@ export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
 	const [showModal, setShowModal] = useState(false);
+	const [isSavedVisible, setSavedVisibility] = useState(false);
 
 	const [form, setForm] = useState('current');
 
@@ -56,7 +57,15 @@ export default function Dashboard() {
 				{isPlatesVisible ? 'Hide Plates' : 'Show Plates'}
 			</button>
 
-			{isPlatesVisible && <ViewPlates />}
+			{isPlatesVisible && <ViewPlates storageHelper={storageHelper} />}
+			<button
+				className="bg-black text-white py-2 px-4 rounded mb-4"
+				onClick={() => setSavedVisibility(!isSavedVisible)}
+			>
+				{isSavedVisible ? 'Hide Saved Forms' : 'Show Saved Forms'}
+			</button>
+
+			{isSavedVisible && <SavedForms storageHelper={storageHelper} />}
 			<div className="mb-4 flex items-center justify-center">
 				<button
 					className="bg-red-500 text-white py-2 px-4 rounded mx-2"
@@ -81,7 +90,6 @@ export default function Dashboard() {
 					storageHelper={storageHelper}
 				/>
 			)}
-			<SavedForms />
 		</div>
 	);
 }
