@@ -27,6 +27,9 @@ export default function SaveForm({ storageHelper }: { storageHelper: any }) {
 						<button
 							className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
 							onClick={() => {
+								if (!errorSaving) {
+									window.location.reload();
+								}
 								setShowModal(false);
 								setErrorSaving(false);
 							}}

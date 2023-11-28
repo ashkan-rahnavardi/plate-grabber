@@ -151,18 +151,21 @@ const ProCam = () => {
 					aspectRatio="cover"
 					facingMode="environment"
 				/>
-				<div className="bottom-0 right-0 fixed mb-5 mr-10">
+				<div className="bottom-0 right-0 fixed mb-5 mr-10 flex items-center justify-center">
+					<div className="flex items-center justify-center pr-10">
+						<Link
+							href="/"
+							className="bg-slate-400 bg-opacity-70 text-white mx-1 py-2 px-4 rounded-full "
+						>
+							Home
+						</Link>
+					</div>
 					<button
 						className="bg-slate-400 bg-opacity-70 text-white mx-1 py-2 px-4 rounded-full"
 						onClick={handleTakePhoto}
 					>
 						<img src="https://img.icons8.com/ios/50/000000/compact-camera.png" />
 					</button>
-					<div className="mb-4 flex items-center justify-center">
-						<Link href="/" className="bg-black text-white py-2 px-4 rounded">
-							Home
-						</Link>
-					</div>
 				</div>
 			</div>
 		</>

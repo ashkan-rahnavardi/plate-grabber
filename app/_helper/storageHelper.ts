@@ -21,34 +21,33 @@ interface LicenseForm {
 
 class StorageHelper {
 	private readonly storageKey: string;
+	blankForm: LicenseForm;
 
 	constructor() {
 		this.storageKey = 'forms';
+		this.blankForm = {
+			id: 'current',
+			reference: '',
+			sides: '',
+			hundred_blocks: '',
+			current_block: '',
+			street: '',
+			road_type: '',
+			sign_wording: '',
+			install_date: '',
+			install_time: '',
+			crew: '',
+			signature: '',
+			plates: {
+				'': [''],
+			},
+		};
 	}
 
 	private getForms(): LicenseForm[] {
 		const storedData = localStorage.getItem(this.storageKey);
 
-		const emptyData = [
-			{
-				id: 'current',
-				reference: '',
-				sides: '',
-				hundred_blocks: [''],
-				current_block: '',
-				street: '',
-				road_type: '',
-				sign_wording: '',
-				install_date: '',
-				install_time: '',
-				crew: '',
-				signature: '',
-				plates: {
-					'': [''],
-				},
-			},
-		];
-
+		const emptyData = [this.blankForm];
 		return storedData ? JSON.parse(storedData) : emptyData;
 	}
 
@@ -79,6 +78,7 @@ class StorageHelper {
 				}
 
 				this.setForms(forms);
+				this.clearCurrentForm();
 				return true;
 			}
 
@@ -195,28 +195,26 @@ class StorageHelper {
 		}
 	}
 
-	// changeCurrentForm(formId: string): void {
-	// 	const forms = this.getForms();
-	// 	const targetForm = forms.find((form) => form.id === formId);
-	// 	const currentFormIndex = forms.findIndex((form) => form.id === 'current');
+	clearCurrentForm(): void {
+		const forms = this.getForms();
+		const currentFormIndex = forms.findIndex((form) => form.id === 'current');
 
-	// 	if (targetForm !== undefined && currentFormIndex !== -1) {
-	// 		forms[currentFormIndex] = { ...targetForm, id: 'current' };
-	// 		this.setForms(forms);
-	// 	}
-	// }
+		if (currentFormIndex !== -1) {
+			forms[currentFormIndex] = { ...this.blankForm };
+			this.setForms(forms);
+		}
+	}
 
-	// changeCurrentForm(formId: string): void {
+	deleteForm(formId: string): void {
+		const forms = this.getForms();
+		const targetFormIndex = forms.findIndex((form) => form.id === formId);
 
-	// 	const forms = this.getForms();
-	// 	const targetForm = forms.find((form) => form.id === formId);
-	// 	let currentForm = forms.find((form) => form.id === 'current');
-
-	// 	if (targetForm && currentForm) {
-	// 		currentForm = { ...targetForm };
-	// 		this.setForms(forms);
-	// 	}
-	// }
+		if (targetFormIndex !== -1) {
+			forms.splice(targetFormIndex, 1);
+			this.setForms(forms);
+			this.clearCurrentForm();
+		}
+	}
 }
 
 export default StorageHelper;

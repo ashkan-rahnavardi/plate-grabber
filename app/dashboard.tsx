@@ -18,17 +18,7 @@ export default function Dashboard() {
 	const [showModal, setShowModal] = useState(false);
 	const [isSavedVisible, setSavedVisibility] = useState(false);
 
-	const [form, setForm] = useState('current');
-
 	const storageHelper = new StorageHelper();
-
-	const forms = storageHelper.getFormsList();
-
-	const currentForm = storageHelper.getFormById('current');
-
-	console.log(currentForm);
-
-	console.log(forms);
 
 	const handleClearLocalStorage = () => {
 		// Remove all data from local storage except 'signature' and 'crew_initials'
@@ -73,7 +63,7 @@ export default function Dashboard() {
 				>
 					Clear form
 				</button>
-				<button
+				{/* <button
 					className="bg-black text-white py-2 px-4 rounded mx-2"
 					type="button"
 					onClick={() => {
@@ -81,15 +71,16 @@ export default function Dashboard() {
 					}}
 				>
 					Add Plate
-				</button>
+				</button> */}
+				<AddPlate storageHelper={storageHelper} />
 				<SaveForm storageHelper={storageHelper} />
 			</div>
-			{showModal && (
+			{/* {showModal && (
 				<AddPlate
 					closeModal={() => setShowModal(false)}
 					storageHelper={storageHelper}
 				/>
-			)}
+			)} */}
 		</div>
 	);
 }
