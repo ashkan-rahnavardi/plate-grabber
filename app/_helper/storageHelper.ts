@@ -21,7 +21,8 @@ interface LicenseForm {
 
 class StorageHelper {
 	private readonly storageKey: string;
-	blankForm: LicenseForm;
+	private blankForm: LicenseForm;
+	private static instance: StorageHelper;
 
 	constructor() {
 		this.storageKey = 'forms';
@@ -42,6 +43,14 @@ class StorageHelper {
 				'': [''],
 			},
 		};
+	}
+
+	public static getInstance(): StorageHelper {
+		if (!StorageHelper.instance) {
+			StorageHelper.instance = new StorageHelper();
+		}
+
+		return StorageHelper.instance;
 	}
 
 	private getForms(): LicenseForm[] {

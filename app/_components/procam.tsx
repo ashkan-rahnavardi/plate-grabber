@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType } from 'react-camera-pro';
-import StorageHelper from '../_helper/storageHelper';
+import { StorageHelperType, useStorage } from '../_helper/storageContext';
 
 // TO DO: finish converting styled comp to tailwind
 
@@ -22,7 +22,7 @@ const Modal = ({
 	currentBlock: string;
 	setCurrentBlock: (currentBlock: string) => void;
 	setPlate: (plate: string) => void;
-	storageHelper: StorageHelper;
+	storageHelper: StorageHelperType;
 }) => {
 	const updatePlate = (plate: string, block: string) => {
 		storageHelper.addPlates(block, plate);
@@ -85,7 +85,7 @@ const Modal = ({
 };
 
 const ProCam = () => {
-	const storageHelper = new StorageHelper();
+	const storageHelper = useStorage();
 
 	const [image, setImage] = useState<string>('');
 	const [currentBlock, setCurrentBlock] = useState<string>(
