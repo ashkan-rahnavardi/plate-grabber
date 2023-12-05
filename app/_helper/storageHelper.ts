@@ -1,6 +1,6 @@
 import { info } from 'console';
 
-// TO DO: finish add plate functioanlity and update plate functionality
+// TO DO: Make saved forms autosave on change
 
 interface LicenseForm {
 	id: string;
@@ -184,6 +184,7 @@ class StorageHelper {
 	}
 
 	changeCurrentForm(formId: string): void {
+		// Loads formId into current form
 		const forms = this.getForms();
 		const targetForm = forms.find((form) => form.id === formId);
 		const currentFormIndex = forms.findIndex((form) => form.id === 'current');

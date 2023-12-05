@@ -1,7 +1,5 @@
 'use client';
 
-// TO DO: Make View/Delete buttons only show on the card that clicks them
-// TO DO: Clicking view or delete should show a warning modal being like u sure or make sure to save changes
 // Pass saved ids from dashboard so it refreshes on change
 
 import { useState } from 'react';

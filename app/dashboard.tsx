@@ -21,12 +21,10 @@ export default function Dashboard() {
 	const storageHelper = new StorageHelper();
 
 	const handleClearLocalStorage = () => {
-		// Remove all data from local storage except 'signature' and 'crew_initials'
 		Object.keys(localStorage).forEach((key) => {
 			localStorage.removeItem(key);
 		});
 
-		// Reload the form to reflect the changes
 		window.location.reload();
 	};
 
@@ -63,24 +61,9 @@ export default function Dashboard() {
 				>
 					Clear form
 				</button>
-				{/* <button
-					className="bg-black text-white py-2 px-4 rounded mx-2"
-					type="button"
-					onClick={() => {
-						setShowModal(true);
-					}}
-				>
-					Add Plate
-				</button> */}
 				<AddPlate storageHelper={storageHelper} />
 				<SaveForm storageHelper={storageHelper} />
 			</div>
-			{/* {showModal && (
-				<AddPlate
-					closeModal={() => setShowModal(false)}
-					storageHelper={storageHelper}
-				/>
-			)} */}
 		</div>
 	);
 }
