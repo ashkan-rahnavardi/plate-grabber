@@ -1,12 +1,8 @@
-import { info } from 'console';
-
-// TO DO: Make saved forms autosave on change
-
 interface LicenseForm {
 	id: string;
 	reference: string;
 	sides: string;
-	hundred_blocks: string[];
+	hundred_blocks: string;
 	current_block: string;
 	street: string;
 	road_type: string;
@@ -25,17 +21,22 @@ class StorageHelper {
 	private static instance: StorageHelper;
 
 	constructor() {
+		const currentDate = new Date();
+		const year = currentDate.getFullYear();
+		const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+		const day = String(currentDate.getDate()).padStart(2, '0');
+
 		this.storageKey = 'forms';
 		this.blankForm = {
 			id: 'current',
 			reference: '',
 			sides: '',
-			hundred_blocks: [''],
+			hundred_blocks: '',
 			current_block: '',
 			street: '',
 			road_type: '',
 			sign_wording: '',
-			install_date: '',
+			install_date: `${year}-${month}-${day}`,
 			install_time: '',
 			crew: '',
 			signature: '',
@@ -70,8 +71,16 @@ class StorageHelper {
 
 		if (currentForm) {
 			const currentReference = currentForm.reference.trim();
+			const currentCrew = currentForm.crew.trim();
+			const currentSignature = currentForm.signature.trim();
 
-			if (currentReference !== '') {
+			if (
+				currentReference === '' ||
+				currentCrew === '' ||
+				currentSignature === ''
+			) {
+				return false;
+			} else {
 				const existingFormIndex = forms.findIndex(
 					(form) => form.id === currentReference
 				);
@@ -90,8 +99,6 @@ class StorageHelper {
 				this.clearCurrentForm();
 				return true;
 			}
-
-			return false;
 		}
 
 		return false;
@@ -115,7 +122,7 @@ class StorageHelper {
 		}
 	}
 
-	public getHundredBlocks(): string[] {
+	public getHundredBlocks(): string {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -123,10 +130,10 @@ class StorageHelper {
 			return currentForm.hundred_blocks;
 		}
 
-		return [];
+		return '';
 	}
 
-	public setCurrentBlock(block: string) {
+	public addCurrentBlock(block: string) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -134,8 +141,12 @@ class StorageHelper {
 			// set current block
 			currentForm.current_block = block;
 			// add block to hundred blocks if not already there
-			if (!currentForm.hundred_blocks.includes(block)) {
-				currentForm.hundred_blocks.push(block);
+			if (currentForm.hundred_blocks === '') {
+				currentForm.hundred_blocks = block;
+			} else if (!currentForm.hundred_blocks.includes(block)) {
+				currentForm.hundred_blocks = currentForm.hundred_blocks.concat(
+					', ' + block
+				);
 			}
 			this.setForms(forms);
 		}
@@ -221,8 +232,13 @@ class StorageHelper {
 		const forms = this.getForms();
 		const currentFormIndex = forms.findIndex((form) => form.id === 'current');
 
+		const signature = forms[currentFormIndex].signature;
+		const crew = forms[currentFormIndex].crew;
+
 		if (currentFormIndex !== -1) {
 			forms[currentFormIndex] = { ...this.blankForm };
+			forms[currentFormIndex].signature = signature;
+			forms[currentFormIndex].crew = crew;
 			this.setForms(forms);
 		}
 	}
@@ -236,6 +252,73 @@ class StorageHelper {
 			this.setForms(forms);
 			this.clearCurrentForm();
 		}
+	}
+
+	public downloadAllForms(): void {
+		const formIDs = this.getFormIDs();
+		let textData = '';
+
+		const currentForm = this.getFormById('current');
+
+		const title = `${currentForm?.signature}_${currentForm?.install_date}`;
+
+		formIDs.forEach((formId) => {
+			const form = this.getFormById(formId);
+
+			if (form) {
+				textData += this.convertFormToText(form);
+				textData += '\n\n';
+			}
+		});
+
+		const blob = new Blob([textData], { type: 'text/plain' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${title}_form.txt`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	}
+
+	public downloadForm(formId: string): void {
+		const form = this.getFormById(formId);
+
+		if (form) {
+			const textData = this.convertFormToText(form);
+			const blob = new Blob([textData], { type: 'text/plain' });
+			const url = URL.createObjectURL(blob);
+
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${formId}_form.txt`;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+		}
+	}
+
+	private convertFormToText(form: LicenseForm): string {
+		// Implement the logic to convert the form data to a text format
+		// For example, you can iterate over the form properties and format them as text
+		let text = '';
+
+		for (const [key, value] of Object.entries(form)) {
+			if (key === 'plates') {
+				text += `${key}:\n`;
+				for (const [block, plates] of Object.entries(value)) {
+					text += `\t${block}: ${plates.join(', ')}\n`;
+				}
+				continue;
+			} else if (key === 'id' || key === 'current_block') {
+				continue;
+			}
+			text += `${key}: ${value}\n`;
+		}
+
+		return text;
 	}
 }
 

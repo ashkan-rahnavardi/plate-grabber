@@ -89,11 +89,22 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 		<>
 			{showModal && <Modal />}
 			<div className="flex flex-wrap justify-center">
+				<button
+					className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded mx-2"
+					onClick={() => {
+						storageHelper.downloadAllForms();
+						// formIDs.forEach((formID: string) => {
+						// 	storageHelper.downloadForm(formID);
+						// });
+					}}
+				>
+					Download All
+				</button>
 				{formIDs.map((formID: string) => (
 					<div
 						key={formID}
 						className={`m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center ${
-							showButtonsForID[formID] ? 'h-24' : 'h-12' // Adjust the heights based on your design
+							showButtonsForID[formID] ? 'h-32' : 'h-16' // Adjust the heights based on your design
 						}`}
 						onClick={() => handleFormClick(formID)}
 					>

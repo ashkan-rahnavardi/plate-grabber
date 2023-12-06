@@ -60,27 +60,6 @@ export default function AddPlate({ storageHelper }: { storageHelper: any }) {
 	const [currentBlock, setCurrentBlock] = useState('');
 	const router = useRouter();
 
-	// const handleChange = (
-	// 	event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	// ) => {
-	// 	const { value } = event.target;
-	// 	storageHelper.setCurrentBlock(value);
-	// };
-
-	// const handleContinue = () => {
-	// 	const currentBlock = storageHelper.getCurrentBlock();
-	// 	if (!currentBlock.trim()) {
-	// 		// Show an alert if the input is empty
-	// 		alert('Please enter a value for Current Block');
-	// 		return;
-	// 	}
-
-	// 	// Close the modal
-	// 	setShowModal(false);
-
-	// 	router.push('/add-plate');
-	// };
-
 	const handleContinue = () => {
 		if (!currentBlock.trim()) {
 			// Show an alert if the input is empty
@@ -88,7 +67,7 @@ export default function AddPlate({ storageHelper }: { storageHelper: any }) {
 			return;
 		}
 
-		storageHelper.setCurrentBlock(currentBlock);
+		storageHelper.addCurrentBlock(currentBlock);
 
 		setShowModal(false);
 

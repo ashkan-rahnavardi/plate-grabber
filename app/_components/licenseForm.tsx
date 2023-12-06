@@ -2,10 +2,6 @@
 
 import { useEffect } from 'react';
 
-// Havent added 24hr checkbox yet
-
-// TODO: fix time input
-
 export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 	const handleChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -76,14 +72,14 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="street/lane">
+				<label className="label-style" htmlFor="street">
 					Street/Lane:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="street/lane"
-					name="street/lane"
+					id="street"
+					name="street"
 					onChange={handleChange}
 				/>
 			</div>
@@ -142,14 +138,14 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="crew_initials">
+				<label className="label-style" htmlFor="crew">
 					Crew Initials:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="crew_initials"
-					name="crew_initials"
+					id="crew"
+					name="crew"
 					onChange={handleChange}
 				/>
 			</div>

@@ -26,6 +26,7 @@ const Modal = ({
 }) => {
 	const updatePlate = (plate: string, block: string) => {
 		storageHelper.addPlates(block, plate);
+		storageHelper.addCurrentBlock(block);
 		closeModal();
 	};
 
