@@ -64,7 +64,7 @@ class StorageHelper {
 		localStorage.setItem(this.storageKey, JSON.stringify(forms));
 	}
 
-	saveCurrentForm(): boolean {
+	public saveCurrentForm(): boolean {
 		const forms = this.getForms();
 		const currentForm = this.getFormById('current');
 
@@ -97,11 +97,7 @@ class StorageHelper {
 		return false;
 	}
 
-	getFormsList(): LicenseForm[] {
-		return this.getForms();
-	}
-
-	getFormById(formId: string): LicenseForm | undefined {
+	public getFormById(formId: string): LicenseForm | undefined {
 		const forms = this.getForms();
 
 		const form = forms.find((form) => form.id === formId);
@@ -109,7 +105,7 @@ class StorageHelper {
 		return form;
 	}
 
-	updateFormProperty(property: string, value: any): void {
+	public updateFormProperty(property: string, value: any): void {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -119,7 +115,7 @@ class StorageHelper {
 		}
 	}
 
-	setCurrentBlock(block: string) {
+	public setCurrentBlock(block: string) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -129,7 +125,7 @@ class StorageHelper {
 		}
 	}
 
-	getCurrentBlock(): string {
+	public getCurrentBlock(): string {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -140,7 +136,7 @@ class StorageHelper {
 		return '';
 	}
 
-	addPlates(block: string, plate: string) {
+	public addPlates(block: string, plate: string) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -155,7 +151,7 @@ class StorageHelper {
 		}
 	}
 
-	updatePlate(block: string, plate: string, index: number) {
+	public updatePlate(block: string, plate: string, index: number) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -165,7 +161,7 @@ class StorageHelper {
 		}
 	}
 
-	getPlates() {
+	public getPlates() {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
@@ -180,7 +176,7 @@ class StorageHelper {
 		return {};
 	}
 
-	getFormIDs(): string[] {
+	public getFormIDs(): string[] {
 		const forms = this.getForms();
 
 		let ids = forms
@@ -192,7 +188,7 @@ class StorageHelper {
 		return ids;
 	}
 
-	changeCurrentForm(formId: string): void {
+	public changeCurrentForm(formId: string): void {
 		// Loads formId into current form
 		const forms = this.getForms();
 		const targetForm = forms.find((form) => form.id === formId);
@@ -205,7 +201,7 @@ class StorageHelper {
 		}
 	}
 
-	clearCurrentForm(): void {
+	public clearCurrentForm(): void {
 		const forms = this.getForms();
 		const currentFormIndex = forms.findIndex((form) => form.id === 'current');
 
@@ -215,7 +211,7 @@ class StorageHelper {
 		}
 	}
 
-	deleteForm(formId: string): void {
+	public deleteForm(formId: string): void {
 		const forms = this.getForms();
 		const targetFormIndex = forms.findIndex((form) => form.id === formId);
 

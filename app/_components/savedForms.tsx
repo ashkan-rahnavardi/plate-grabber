@@ -9,7 +9,10 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 
 	const [showModal, setShowModal] = useState(false);
 	const [showID, setShowID] = useState('');
-	const [showButtonsForID, setShowButtonsForID] = useState('');
+	// const [showButtonsForID, setShowButtonsForID] = useState('');
+	const [showButtonsForID, setShowButtonsForID] = useState<{
+		[key: string]: boolean;
+	}>({});
 	const [viewModal, setViewModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 
@@ -27,7 +30,14 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 
 	const handleFormClick = (formID: string) => {
 		setShowID(formID);
-		setShowButtonsForID(formID);
+
+		setShowButtonsForID((prev) => ({ ...prev, [formID]: !prev[formID] }));
+
+		// if (showButtonsForID === formID) {
+		// 	setShowButtonsForID('');
+		// } else {
+		// 	setShowButtonsForID(formID);
+		// }
 	};
 
 	const Modal = () => {
@@ -89,13 +99,16 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 				{formIDs.map((formID: string) => (
 					<div
 						key={formID}
-						className="m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer"
+						className={`m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center ${
+							showButtonsForID[formID] ? 'h-24' : 'h-12' // Adjust the heights based on your design
+						}`}
+						// className="m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center"
 						// onClick={() => handleFormClick(formID)}
 						onClick={() => handleFormClick(formID)}
 					>
-						<p>Reference:</p>
-						<h1 className="text-xl font-semibold">{formID}</h1>
-						{showButtonsForID === formID && (
+						{/* <p>Reference:</p> */}
+						<h1 className="text-xl font-semibold">Reference: {' ' + formID}</h1>
+						{showButtonsForID[formID] && (
 							<>
 								<button
 									className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2"
