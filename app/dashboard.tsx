@@ -15,10 +15,11 @@ import { StorageHelperType, useStorage } from './_helper/storageContext';
 export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
-	const [showModal, setShowModal] = useState(false);
 	const [isSavedVisible, setSavedVisibility] = useState(false);
 
 	const storageHelper: StorageHelperType = useStorage();
+
+	const blocks = storageHelper.getHundredBlocks();
 
 	const handleClearLocalStorage = () => {
 		Object.keys(localStorage).forEach((key) => {
@@ -64,6 +65,7 @@ export default function Dashboard() {
 				<AddPlate storageHelper={storageHelper} />
 				<SaveForm storageHelper={storageHelper} />
 			</div>
+			{blocks}
 		</div>
 	);
 }

@@ -6,7 +6,7 @@ interface LicenseForm {
 	id: string;
 	reference: string;
 	sides: string;
-	hundred_blocks: string;
+	hundred_blocks: string[];
 	current_block: string;
 	street: string;
 	road_type: string;
@@ -30,7 +30,7 @@ class StorageHelper {
 			id: 'current',
 			reference: '',
 			sides: '',
-			hundred_blocks: '',
+			hundred_blocks: [''],
 			current_block: '',
 			street: '',
 			road_type: '',
@@ -115,12 +115,28 @@ class StorageHelper {
 		}
 	}
 
+	public getHundredBlocks(): string[] {
+		const forms = this.getForms();
+		const currentForm = forms.find((form) => form.id === 'current');
+
+		if (currentForm) {
+			return currentForm.hundred_blocks;
+		}
+
+		return [];
+	}
+
 	public setCurrentBlock(block: string) {
 		const forms = this.getForms();
 		const currentForm = forms.find((form) => form.id === 'current');
 
 		if (currentForm) {
+			// set current block
 			currentForm.current_block = block;
+			// add block to hundred blocks if not already there
+			if (!currentForm.hundred_blocks.includes(block)) {
+				currentForm.hundred_blocks.push(block);
+			}
 			this.setForms(forms);
 		}
 	}

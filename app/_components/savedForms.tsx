@@ -9,7 +9,6 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 
 	const [showModal, setShowModal] = useState(false);
 	const [showID, setShowID] = useState('');
-	// const [showButtonsForID, setShowButtonsForID] = useState('');
 	const [showButtonsForID, setShowButtonsForID] = useState<{
 		[key: string]: boolean;
 	}>({});
@@ -32,17 +31,11 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 		setShowID(formID);
 
 		setShowButtonsForID((prev) => ({ ...prev, [formID]: !prev[formID] }));
-
-		// if (showButtonsForID === formID) {
-		// 	setShowButtonsForID('');
-		// } else {
-		// 	setShowButtonsForID(formID);
-		// }
 	};
 
 	const Modal = () => {
 		return (
-			<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
 				<div className="bg-white p-8 rounded-md">
 					<h1>
 						Warning any unsaved changes on current form will be lost if you
@@ -102,11 +95,8 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 						className={`m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center ${
 							showButtonsForID[formID] ? 'h-24' : 'h-12' // Adjust the heights based on your design
 						}`}
-						// className="m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center"
-						// onClick={() => handleFormClick(formID)}
 						onClick={() => handleFormClick(formID)}
 					>
-						{/* <p>Reference:</p> */}
 						<h1 className="text-xl font-semibold">Reference: {' ' + formID}</h1>
 						{showButtonsForID[formID] && (
 							<>
