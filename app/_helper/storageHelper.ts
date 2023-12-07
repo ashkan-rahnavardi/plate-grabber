@@ -1,4 +1,4 @@
-interface LicenseForm {
+export interface LicenseForm {
 	id: string;
 	reference: string;
 	sides: string;

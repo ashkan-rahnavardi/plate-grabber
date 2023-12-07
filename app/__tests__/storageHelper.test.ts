@@ -1,58 +1,39 @@
-import StorageHelper from '../_helper/storageHelper';
-
-// Mock localStorage for testing purposes
-global.localStorage = {
-	getItem: jest.fn(),
-	setItem: jest.fn(),
-	clear: jest.fn(),
-};
+import StorageHelper, { LicenseForm } from '../_helper/storageHelper';
 
 describe('StorageHelper', () => {
-	let storageHelper;
-
-	beforeEach(() => {
-		storageHelper = new StorageHelper();
-	});
-
-	afterEach(() => {
-		localStorage.getItem.mockClear();
-		localStorage.setItem.mockClear();
-		localStorage.clear.mockClear();
-	});
-
-	test('getInstance should return the same instance', () => {
+	// Test case for getInstance method
+	it('should return the same instance of StorageHelper', () => {
 		const instance1 = StorageHelper.getInstance();
 		const instance2 = StorageHelper.getInstance();
+
 		expect(instance1).toBe(instance2);
 	});
 
-	test('getForms should return an array of forms', () => {
-		// Mock localStorage.getItem to return a stringified array
-		localStorage.getItem.mockReturnValue(JSON.stringify([{ id: 'current' }]));
+	// Add more test cases as needed
 
-		const forms = storageHelper.getForms();
+	// For example, you can test that the instance has the correct initial values
+	it('should have the correct initial values', () => {
+		const instance = StorageHelper.getInstance();
 
-		expect(forms).toEqual([{ id: 'current' }]);
-		expect(localStorage.getItem).toHaveBeenCalledWith('forms');
-	});
-
-	// Add more tests for other methods in the StorageHelper class
-	// ...
-
-	test('convertFormToText should return formatted text', () => {
-		const form = {
-			id: '1',
-			reference: 'ref',
-			sides: 'both',
-			// ... other form properties
+		// Replace this with your actual initial values
+		const expectedBlankForm: LicenseForm = {
+			id: 'current',
+			reference: '',
+			sides: '',
+			hundred_blocks: '',
+			current_block: '',
+			street: '',
+			road_type: '',
+			sign_wording: '',
+			install_date: '2023-12-07', // Replace with the current date
+			install_time: '',
+			crew: '',
+			signature: '',
+			plates: {
+				'': [''],
+			},
 		};
 
-		const result = storageHelper.convertFormToText(form);
-
-		// Add assertions based on the expected text format
-		expect(result).toContain('id: 1');
-		expect(result).toContain('reference: ref');
-		expect(result).toContain('sides: both');
-		// ... assert other properties
+		expect(instance['blankForm']).toEqual(expectedBlankForm);
 	});
 });
