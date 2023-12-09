@@ -55,14 +55,20 @@ class StorageHelper {
 	}
 
 	private getForms(): LicenseForm[] {
-		const storedData = localStorage.getItem(this.storageKey);
+		if (typeof window !== 'undefined' && window.localStorage) {
+			const storedData = localStorage.getItem(this.storageKey);
 
-		const emptyData = [this.blankForm];
-		return storedData ? JSON.parse(storedData) : emptyData;
+			const emptyData = [this.blankForm];
+			return storedData ? JSON.parse(storedData) : emptyData;
+		} else {
+			return [this.blankForm];
+		}
 	}
 
 	private setForms(forms: LicenseForm[]): void {
-		localStorage.setItem(this.storageKey, JSON.stringify(forms));
+		if (typeof window !== 'undefined' && window.localStorage) {
+			localStorage.setItem(this.storageKey, JSON.stringify(forms));
+		}
 	}
 
 	public saveCurrentForm(): boolean {
