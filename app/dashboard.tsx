@@ -8,18 +8,12 @@ import SavedForms from './_components/savedForms';
 import ViewPlates from './_components/viewPlates';
 import { StorageHelperType, useStorage } from './_helper/storageContext';
 
-// To Do: Make view plate in a dropdown like form
-// To Do: Save button for form
-// View saved forms
-
 export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);
 	const [isPlatesVisible, setPlatesVisibility] = useState(true);
 	const [isSavedVisible, setSavedVisibility] = useState(false);
 
 	const storageHelper: StorageHelperType = useStorage();
-
-	const blocks = storageHelper.getHundredBlocks();
 
 	const handleClearLocalStorage = () => {
 		Object.keys(localStorage).forEach((key) => {
@@ -65,7 +59,6 @@ export default function Dashboard() {
 				<AddPlate storageHelper={storageHelper} />
 				<SaveForm storageHelper={storageHelper} />
 			</div>
-			{blocks}
 		</div>
 	);
 }
