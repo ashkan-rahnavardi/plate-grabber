@@ -23,6 +23,7 @@ export default function Dashboard() {
 		window.location.reload();
 	};
 
+	// nothing
 	return (
 		<div className="p-4 flex flex-col">
 			<button
