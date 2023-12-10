@@ -4,7 +4,10 @@ export async function POST(request: Request) {
 	try {
 		const imageBody = await request.json();
 		const image = imageBody.image;
+		// const key: string = process.env.PLATE_KEY as string;
 		const key: string = process.env.PLATE_KEY as string;
+
+		console.log(key);
 
 		const formData = new FormData();
 		formData.append('upload', image);
