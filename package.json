@@ -14,7 +14,7 @@
 	"dependencies": {
 		"next": "14.0.3",
 		"react": "^18",
-		"react-camera-pro": "git+https://github.com/ashkan-rahnavardi/react-camera-pro",
+		"react-camera-pro": "git+https://github.com/ashkan-rahnavardi/react-camera-pro-18",
 		"react-dom": "^18",
 		"styled-components": "^5.2.1"
 	},
