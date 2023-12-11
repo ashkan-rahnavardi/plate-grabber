@@ -5,31 +5,118 @@ import { useState } from 'react';
 export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 	const formIDs = storageHelper.getFormIDs();
 
+	const [showNoFormsModal, setShowNoFormsModal] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [showID, setShowID] = useState('');
-	const [showButtonsForID, setShowButtonsForID] = useState<{
-		[key: string]: boolean;
-	}>({});
+	const [viewID, setViewID] = useState('');
 	const [viewModal, setViewModal] = useState(false);
-	const [deleteModal, setDeleteModal] = useState(false);
-	const [deleteAllModal, setDeleteAllModal] = useState(false);
+	const [deleteSeclectedModal, setDeleteSelectedModal] = useState(false);
 
-	const handleDelete = () => {
-		storageHelper.deleteForm(showID);
-		setShowModal(false);
-		window.location.reload();
+	const [selectedForms, setSelectedForms] = useState<string[]>([]);
+	const [selectAllChecked, setSelectAllChecked] = useState(false);
+
+	const handleSelectAll = () => {
+		if (selectAllChecked) {
+			setSelectedForms([]);
+		} else {
+			setSelectedForms(formIDs);
+		}
+		setSelectAllChecked(!selectAllChecked);
 	};
 
-	const handleContinue = () => {
-		storageHelper.changeCurrentForm(showID);
-		setShowModal(false);
-		window.location.reload();
+	const handleSelect = (
+		formID: string,
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		event.stopPropagation();
+
+		setSelectedForms((prevSelected) => {
+			if (prevSelected.includes(formID)) {
+				return prevSelected.filter((id) => id !== formID);
+			} else {
+				return [...prevSelected, formID];
+			}
+		});
 	};
 
 	const handleFormClick = (formID: string) => {
-		setShowID(formID);
+		setViewID(formID);
 
-		setShowButtonsForID((prev) => ({ ...prev, [formID]: !prev[formID] }));
+		if (showID === formID) {
+			setShowID('');
+		} else {
+			setShowID(formID);
+		}
+	};
+
+	const handleContinue = () => {
+		storageHelper.changeCurrentForm(viewID);
+		setShowModal(false);
+		window.location.reload();
+	};
+
+	const noForms = () => {
+		return <h1>No forms saved</h1>;
+	};
+
+	const handleDelete = () => {
+		if (selectedForms.length === 0) {
+			setShowNoFormsModal(true);
+		} else {
+			setShowModal(true);
+			setDeleteSelectedModal(true);
+		}
+	};
+
+	const handleDownload = () => {
+		if (selectedForms.length === 0) {
+			setShowNoFormsModal(true);
+		} else {
+			storageHelper.downloadSelectedForms(selectedForms);
+		}
+	};
+
+	const DownloadDelete = () => {
+		return (
+			<div className="flex">
+				<button
+					className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2"
+					onClick={() => {
+						handleDelete();
+					}}
+				>
+					Delete Selected
+				</button>
+				<button
+					className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mx-2"
+					onClick={() => {
+						handleDownload();
+					}}
+				>
+					Download Selected
+				</button>
+			</div>
+		);
+	};
+
+	const NoFormsModal = () => {
+		return (
+			<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+				<div className="bg-white p-8 rounded-md">
+					<h1>No Forms selected</h1>
+					<div className="flex justify-around mt-4">
+						<button
+							className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
+							onClick={() => {
+								setShowNoFormsModal(false);
+							}}
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			</div>
+		);
 	};
 
 	const Modal = () => {
@@ -41,17 +128,10 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 						continue
 					</h1>
 
-					{deleteModal && (
+					{deleteSeclectedModal && (
 						<>
 							<br />
-							<h1>Are you sure you wish to delete form {showID}?</h1>
-						</>
-					)}
-
-					{deleteAllModal && (
-						<>
-							<br />
-							<h1>Are you sure you wish to delete ALL forms?</h1>
+							<h1>Are you sure you wish to delete selected forms?</h1>
 						</>
 					)}
 
@@ -59,7 +139,7 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 						<button
 							className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
 							onClick={() => {
-								setDeleteModal(false);
+								setDeleteSelectedModal(false);
 								setViewModal(false);
 								setShowModal(false);
 							}}
@@ -76,26 +156,16 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 								Continue
 							</button>
 						)}
-						{deleteModal && (
+
+						{deleteSeclectedModal && (
 							<button
 								className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
 								onClick={() => {
-									handleDelete();
-								}}
-							>
-								Delete
-							</button>
-						)}
-						{deleteAllModal && (
-							<button
-								className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-								onClick={() => {
-									storageHelper.deleteAllForms();
-									setShowModal(false);
+									storageHelper.deleteSelectedForms(selectedForms);
 									window.location.reload();
 								}}
 							>
-								Delete All
+								Delete
 							</button>
 						)}
 					</div>
@@ -104,69 +174,52 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 		);
 	};
 
-	const noForms = () => {
-		return <h1>No forms saved</h1>;
-	};
-
-	const DownloadAllButtons = () => {
-		return (
-			<div className="flex">
-				<button
-					className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2"
-					onClick={() => {
-						setShowModal(true);
-						setDeleteAllModal(true);
-					}}
-				>
-					Delete All
-				</button>
-				<button
-					className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mx-2"
-					onClick={() => {
-						storageHelper.downloadAllForms();
-					}}
-				>
-					Download All
-				</button>
-			</div>
-		);
-	};
 	return (
 		<>
+			{showNoFormsModal && <NoFormsModal />}
 			{showModal && <Modal />}
 			<div className="flex flex-wrap justify-center flex-col items-center space-y-2">
-				{formIDs.length === 0 ? noForms() : <DownloadAllButtons />}
+				{formIDs.length === 0 ? (
+					noForms()
+				) : (
+					<>
+						<div className="mb-4">
+							<input
+								type="checkbox"
+								checked={selectAllChecked}
+								onChange={handleSelectAll}
+							/>
+							<span className="ml-2">Select All</span>
+						</div>
+						<DownloadDelete />
+					</>
+				)}
 				{formIDs.map((formID: string) => (
 					<div
 						key={formID}
-						className={`m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center ${
-							showButtonsForID[formID] ? 'h-24' : 'h-12' // Adjust the heights based on your design
-						}`}
+						className={`flex m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-80 text-center justify-between`}
 						onClick={() => handleFormClick(formID)}
 					>
-						<h1 className="text-xl font-semibold">Reference: {' ' + formID}</h1>
-						{showButtonsForID[formID] && (
-							<>
-								<button
-									className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2"
-									onClick={() => {
-										setShowModal(true);
-										setDeleteModal(true);
-									}}
-								>
-									Delete
-								</button>
-								<button
-									className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mx-2"
-									onClick={() => {
-										setShowModal(true);
-										setViewModal(true);
-									}}
-								>
-									View
-								</button>
-							</>
-						)}
+						<div onClick={(e) => e.stopPropagation()}>
+							<input
+								type="checkbox"
+								checked={selectedForms.includes(formID)}
+								onChange={(event) => handleSelect(formID, event)}
+							/>
+						</div>
+
+						<h1 className="text-xl font-semibold">Ref: {' ' + formID}</h1>
+						<button
+							className={`bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mx-2 ${
+								showID === formID ? '' : 'invisible'
+							}`}
+							onClick={() => {
+								setShowModal(true);
+								setViewModal(true);
+							}}
+						>
+							View
+						</button>
 					</div>
 				))}
 			</div>
