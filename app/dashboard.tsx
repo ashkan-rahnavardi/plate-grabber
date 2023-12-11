@@ -20,8 +20,39 @@ export default function Dashboard() {
 		window.location.reload();
 	};
 
+	const Form = () => {
+		return (
+			<>
+				<LicenseForm storageHelper={storageHelper} />
+
+				<div
+					className={`flex justify-between ${
+						isPlatesVisible ? '' : 'bg-gray-300'
+					}`}
+					onClick={() => setPlatesVisibility(!isPlatesVisible)}
+				>
+					<h1 className="font-bold">Plates:</h1>
+					<h1>{isPlatesVisible ? '▲' : '▼'}</h1>
+				</div>
+
+				{isPlatesVisible && <ViewPlates storageHelper={storageHelper} />}
+
+				<div className="my-4 flex items-center justify-center">
+					<button
+						className="bg-red-500 text-white py-2 px-4 rounded mx-2"
+						onClick={handleClearLocalStorage}
+					>
+						Clear form
+					</button>
+					<AddPlate storageHelper={storageHelper} />
+					<SaveForm storageHelper={storageHelper} />
+				</div>
+			</>
+		);
+	};
+
 	return (
-		<div className="p-4 flex flex-col">
+		<div className="p-4 flex flex-col min-h-screen">
 			<button
 				className="bg-black text-white py-2 px-4 rounded mb-4"
 				onClick={() => setFormVisibility(!isFormVisible)}
@@ -29,15 +60,7 @@ export default function Dashboard() {
 				{isFormVisible ? 'Hide Form' : 'Show Form'}
 			</button>
 
-			{isFormVisible && <LicenseForm storageHelper={storageHelper} />}
-			<button
-				className="bg-black text-white py-2 px-4 rounded mb-4"
-				onClick={() => setPlatesVisibility(!isPlatesVisible)}
-			>
-				{isPlatesVisible ? 'Hide Plates' : 'Show Plates'}
-			</button>
-
-			{isPlatesVisible && <ViewPlates storageHelper={storageHelper} />}
+			{isFormVisible && <Form />}
 			<button
 				className="bg-black text-white py-2 px-4 rounded mb-4"
 				onClick={() => setSavedVisibility(!isSavedVisible)}
@@ -46,16 +69,6 @@ export default function Dashboard() {
 			</button>
 
 			{isSavedVisible && <SavedForms storageHelper={storageHelper} />}
-			<div className="my-4 flex items-center justify-center">
-				<button
-					className="bg-red-500 text-white py-2 px-4 rounded mx-2"
-					onClick={handleClearLocalStorage}
-				>
-					Clear form
-				</button>
-				<AddPlate storageHelper={storageHelper} />
-				<SaveForm storageHelper={storageHelper} />
-			</div>
 		</div>
 	);
 }
