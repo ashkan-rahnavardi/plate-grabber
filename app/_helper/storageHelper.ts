@@ -249,6 +249,16 @@ class StorageHelper {
 		}
 	}
 
+	public deleteAllForms(): void {
+		const forms = this.getForms();
+
+		forms.forEach((form) => {
+			if (form.id !== 'current') {
+				this.deleteForm(form.id);
+			}
+		});
+	}
+
 	public deleteForm(formId: string): void {
 		const forms = this.getForms();
 		const targetFormIndex = forms.findIndex((form) => form.id === formId);
@@ -258,6 +268,48 @@ class StorageHelper {
 			this.setForms(forms);
 			this.clearCurrentForm();
 		}
+	}
+
+	public deleteSelectedForms(formIds: string[]): void {
+		const forms = this.getForms();
+
+		formIds.forEach((formId) => {
+			const targetFormIndex = forms.findIndex((form) => form.id === formId);
+
+			if (targetFormIndex !== -1) {
+				forms.splice(targetFormIndex, 1);
+			}
+		});
+
+		this.setForms(forms);
+		this.clearCurrentForm();
+	}
+
+	public downloadSelectedForms(formIds: string[]): void {
+		let textData = '';
+
+		const currentForm = this.getFormById('current');
+
+		const title = `${currentForm?.signature}_${currentForm?.install_date}`;
+
+		formIds.forEach((formId) => {
+			const form = this.getFormById(formId);
+
+			if (form) {
+				textData += this.convertFormToText(form);
+				textData += '\n\n';
+			}
+		});
+
+		const blob = new Blob([textData], { type: 'text/plain' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `${title}_form.txt`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	}
 
 	public downloadAllForms(): void {
