@@ -16,10 +16,7 @@ export default function Dashboard() {
 	const storageHelper: StorageHelperType = useStorage();
 
 	const handleClearLocalStorage = () => {
-		Object.keys(localStorage).forEach((key) => {
-			localStorage.removeItem(key);
-		});
-
+		storageHelper.clearCurrentForm();
 		window.location.reload();
 	};
 
@@ -49,7 +46,7 @@ export default function Dashboard() {
 			</button>
 
 			{isSavedVisible && <SavedForms storageHelper={storageHelper} />}
-			<div className="mb-4 flex items-center justify-center">
+			<div className="my-4 flex items-center justify-center">
 				<button
 					className="bg-red-500 text-white py-2 px-4 rounded mx-2"
 					onClick={handleClearLocalStorage}

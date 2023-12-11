@@ -249,6 +249,16 @@ class StorageHelper {
 		}
 	}
 
+	public deleteAllForms(): void {
+		const forms = this.getForms();
+
+		forms.forEach((form) => {
+			if (form.id !== 'current') {
+				this.deleteForm(form.id);
+			}
+		});
+	}
+
 	public deleteForm(formId: string): void {
 		const forms = this.getForms();
 		const targetFormIndex = forms.findIndex((form) => form.id === formId);

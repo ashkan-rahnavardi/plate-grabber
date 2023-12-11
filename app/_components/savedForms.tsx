@@ -1,7 +1,5 @@
 'use client';
 
-// Pass saved ids from dashboard so it refreshes on change
-
 import { useState } from 'react';
 
 export default function SavedForms({ storageHelper }: { storageHelper: any }) {
@@ -14,6 +12,7 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 	}>({});
 	const [viewModal, setViewModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
+	const [deleteAllModal, setDeleteAllModal] = useState(false);
 
 	const handleDelete = () => {
 		storageHelper.deleteForm(showID);
@@ -49,6 +48,13 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 						</>
 					)}
 
+					{deleteAllModal && (
+						<>
+							<br />
+							<h1>Are you sure you wish to delete ALL forms?</h1>
+						</>
+					)}
+
 					<div className="flex justify-around mt-4">
 						<button
 							className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded"
@@ -80,31 +86,61 @@ export default function SavedForms({ storageHelper }: { storageHelper: any }) {
 								Delete
 							</button>
 						)}
+						{deleteAllModal && (
+							<button
+								className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+								onClick={() => {
+									storageHelper.deleteAllForms();
+									setShowModal(false);
+									window.location.reload();
+								}}
+							>
+								Delete All
+							</button>
+						)}
 					</div>
 				</div>
+			</div>
+		);
+	};
+
+	const noForms = () => {
+		return <h1>No forms saved</h1>;
+	};
+
+	const DownloadAllButtons = () => {
+		return (
+			<div className="flex">
+				<button
+					className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2"
+					onClick={() => {
+						setShowModal(true);
+						setDeleteAllModal(true);
+					}}
+				>
+					Delete All
+				</button>
+				<button
+					className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mx-2"
+					onClick={() => {
+						storageHelper.downloadAllForms();
+					}}
+				>
+					Download All
+				</button>
 			</div>
 		);
 	};
 	return (
 		<>
 			{showModal && <Modal />}
-			<div className="flex flex-wrap justify-center">
-				<button
-					className="bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded mx-2"
-					onClick={() => {
-						storageHelper.downloadAllForms();
-						// formIDs.forEach((formID: string) => {
-						// 	storageHelper.downloadForm(formID);
-						// });
-					}}
-				>
-					Download All
-				</button>
+			<div className="flex flex-wrap justify-center flex-col items-center space-y-2">
+				{formIDs.length === 0 ? noForms() : <DownloadAllButtons />}
 				{formIDs.map((formID: string) => (
 					<div
 						key={formID}
 						className={`m-4 p-4 border rounded-md hover:bg-gray-100 cursor-pointer w-64 text-center ${
-							showButtonsForID[formID] ? 'h-32' : 'h-16' // Adjust the heights based on your design
+							showButtonsForID[formID] ? 'h-24' : 'h-12' // Adjust the heights based on your design
 						}`}
 						onClick={() => handleFormClick(formID)}
 					>
