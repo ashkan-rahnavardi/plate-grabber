@@ -17,6 +17,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
+			<head>
+				<title>Plate Grabber</title>
+			</head>
 			<body className={inter.className}>
 				<StorageProvider>{children}</StorageProvider>
 			</body>
