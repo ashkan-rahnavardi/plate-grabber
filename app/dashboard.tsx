@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import AddPlate from './_components/addPlate';
+import ClearForm from './_components/clearForm';
 import LicenseForm from './_components/licenseForm';
 import SaveForm from './_components/saveFrom';
 import SavedForms from './_components/savedForms';
@@ -24,15 +25,16 @@ export default function Dashboard() {
 		return (
 			<>
 				<div className="w-full flex flex-row-reverse pr-2">
-					<button
-						className="bg-red-500 text-white py-2 px-4 rounded mx-2 w-1/5"
+					<ClearForm storageHelper={storageHelper} />
+					{/* <button
+						className="bg-red-500 text-white py-2 px-4 rounded mx-2 w-1/3"
 						onClick={handleClearLocalStorage}
 					>
 						Clear form
-					</button>
+					</button> */}
 				</div>
 				<LicenseForm storageHelper={storageHelper} />
-				<div className="w-full flex justify-center my-4">
+				<div className="w-full flex justify-center mb-4">
 					<AddPlate storageHelper={storageHelper} />
 				</div>
 

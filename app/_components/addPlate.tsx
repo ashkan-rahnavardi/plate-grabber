@@ -85,7 +85,7 @@ export default function AddPlate({ storageHelper }: { storageHelper: any }) {
 				/>
 			)}
 			<button
-				className="bg-blue-500 hover:gb-blue-600 text-white py-2 px-4 rounded mx-2 w-1/5"
+				className="bg-blue-500 hover:gb-blue-600 text-white py-2 px-4 rounded mx-2 w-1/3"
 				type="button"
 				onClick={() => {
 					setShowModal(true);
