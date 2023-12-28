@@ -8,4 +8,5 @@ This app uses a slightly modified version of 'react-camera-pro' to capture the p
 
 ## Future Features
 &ensp;- User authentification / secure login system
+
 &ensp;- Homebrewed AI for license plate information extraction
