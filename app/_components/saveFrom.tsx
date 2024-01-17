@@ -46,7 +46,7 @@ export default function SaveForm({ storageHelper }: { storageHelper: any }) {
 		<>
 			{showModal && <Modal />}
 			<button
-				className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+				className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-1/3"
 				onClick={() => {
 					handleSave();
 				}}

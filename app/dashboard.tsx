@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import AddPlate from './_components/addPlate';
+import ClearForm from './_components/clearForm';
 import LicenseForm from './_components/licenseForm';
 import SaveForm from './_components/saveFrom';
 import SavedForms from './_components/savedForms';
@@ -23,7 +24,19 @@ export default function Dashboard() {
 	const Form = () => {
 		return (
 			<>
+				<div className="w-full flex flex-row-reverse pr-2">
+					<ClearForm storageHelper={storageHelper} />
+					{/* <button
+						className="bg-red-500 text-white py-2 px-4 rounded mx-2 w-1/3"
+						onClick={handleClearLocalStorage}
+					>
+						Clear form
+					</button> */}
+				</div>
 				<LicenseForm storageHelper={storageHelper} />
+				<div className="w-full flex justify-center mb-4">
+					<AddPlate storageHelper={storageHelper} />
+				</div>
 
 				<div
 					className={`flex justify-between ${
@@ -32,19 +45,13 @@ export default function Dashboard() {
 					onClick={() => setPlatesVisibility(!isPlatesVisible)}
 				>
 					<h1 className="font-bold">Plates:</h1>
+
 					<h1>{isPlatesVisible ? '▲' : '▼'}</h1>
 				</div>
 
 				{isPlatesVisible && <ViewPlates storageHelper={storageHelper} />}
 
 				<div className="my-4 flex items-center justify-center">
-					<button
-						className="bg-red-500 text-white py-2 px-4 rounded mx-2"
-						onClick={handleClearLocalStorage}
-					>
-						Clear form
-					</button>
-					<AddPlate storageHelper={storageHelper} />
 					<SaveForm storageHelper={storageHelper} />
 				</div>
 			</>

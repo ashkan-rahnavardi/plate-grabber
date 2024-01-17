@@ -149,7 +149,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					onChange={handleChange}
 				/>
 			</div>
-			<div className="input-container">
+			<div className="flex items-center">
 				<label className="label-style" htmlFor="signature">
 					Signature:{' '}
 				</label>
