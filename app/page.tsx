@@ -1,8 +1,17 @@
+'use client';
+import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import Dashboard from './dashboard';
 
 const Home: React.FC = () => {
-	return <Dashboard />;
+	const session = useSession();
+	return (
+		<>
+			<div>{session?.data?.user?.name}</div>
+			<button onClick={() => signOut()}>Logout</button>
+			<Dashboard />
+		</>
+	);
 };
 
 export default Home;
