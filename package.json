@@ -12,7 +12,9 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"firebase": "^10.7.1",
 		"next": "14.0.3",
+		"next-auth": "^4.24.5",
 		"react": "^18",
 		"react-camera-pro": "git+https://github.com/ashkan-rahnavardi/react-camera-pro-18",
 		"react-dom": "^18",
