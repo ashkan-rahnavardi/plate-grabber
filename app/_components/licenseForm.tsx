@@ -1,13 +1,41 @@
 'use client';
-
+import debounce from '@/app/_helper/debounce';
+import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
-	const handleChange = (
-		event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	) => {
-		const { name, value } = event.target;
-		storageHelper.updateFormProperty(name, value);
+	// const handleChange = (
+	// 	event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	// ) => {
+	// 	const { name, value } = event.target;
+	// 	storageHelper.updateFormProperty(name, value);
+	// };
+
+	type FormData = {
+		[key: string]: any; // Replace 'any' with more specific types if possible
+	};
+
+	const handleChange = debounce(
+		async (event) => {
+			const { name, value } = event.target;
+			await saveFormDataToDatabase({ [name]: value });
+		},
+		1000 // 1000 milliseconds delay
+	);
+
+	const saveFormDataToDatabase = async (formData: FormData) => {
+		try {
+			await fetch('/api/saveFormData', {
+				// Replace with your server endpoint
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+		} catch (error) {
+			console.error('Error saving form data:', error);
+		}
 	};
 
 	const loadForm = () => {
@@ -31,25 +59,25 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 	return (
 		<div className="flex-col p-4">
 			<div className="input-container">
-				<label className="label-style" htmlFor="reference">
+				<label className="label-style" htmlFor="Reference">
 					Reference #:
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="reference"
-					name="reference"
+					id="Reference"
+					name="Reference"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="sides">
+				<label className="label-style" htmlFor="Sides">
 					On side(s) of
 				</label>
 				<select
 					className="input-style"
-					id="sides"
-					name="sides"
+					id="Sides"
+					name="Sides"
 					onChange={handleChange}
 				>
 					<option value="front">Both</option>
@@ -60,36 +88,36 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 				</select>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="hundred_blocks">
+				<label className="label-style" htmlFor="HundredBlock">
 					Hundred Block(s):{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="hundred_blocks"
-					name="hundred_blocks"
+					id="HundredBlock"
+					name="HundredBlock"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="street">
+				<label className="label-style" htmlFor="Street">
 					Street/Lane:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="street"
-					name="street"
+					id="Street"
+					name="Street"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="road_type">
+				<label className="label-style" htmlFor="StreetType">
 					Road Type:{' '}
 				</label>
 				<select
-					id="road_type"
-					name="road_type"
+					id="StreetType"
+					name="StreetType"
 					onChange={handleChange}
 					className="input-style"
 				>
@@ -102,62 +130,62 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 				</select>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="sign_wording">
+				<label className="label-style" htmlFor="SignWord">
 					Sign Wording:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="sign_wording"
-					name="sign_wording"
+					id="SignWord"
+					name="SignWord"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="install_date">
+				<label className="label-style" htmlFor="InstallDate">
 					Install Date:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="date"
-					id="install_date"
-					name="install_date"
+					id="InstallDate"
+					name="InstallDate"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="install_time">
+				<label className="label-style" htmlFor="InstallTime">
 					Install Time:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="time"
-					id="install_time"
-					name="install_time"
+					id="InstallTime"
+					name="InstallTime"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="input-container">
-				<label className="label-style" htmlFor="crew">
+				<label className="label-style" htmlFor="Crew">
 					Crew Initials:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="crew"
-					name="crew"
+					id="Crew"
+					name="Crew"
 					onChange={handleChange}
 				/>
 			</div>
 			<div className="flex items-center">
-				<label className="label-style" htmlFor="signature">
+				<label className="label-style" htmlFor="Signature">
 					Signature:{' '}
 				</label>
 				<input
 					className="input-style"
 					type="text"
-					id="signature"
-					name="signature"
+					id="Signature"
+					name="Signature"
 					onChange={handleChange}
 				/>
 			</div>

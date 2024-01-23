@@ -29,6 +29,10 @@ async function handleClick() {
 
 const Home: React.FC = () => {
 	const session = useSession();
+
+	if (session) {
+		console.log(session);
+	}
 	return (
 		<>
 			<button onClick={handleClick}>Test</button>
