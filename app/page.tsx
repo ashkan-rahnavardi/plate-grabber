@@ -1,4 +1,5 @@
 'use client';
+import Form from '@/app/_servercomps/form';
 import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import Dashboard from './dashboard';
@@ -39,6 +40,7 @@ const Home: React.FC = () => {
 			<div>{session?.data?.user?.name}</div>
 			<button onClick={() => signOut()}>Logout</button>
 			<Dashboard />
+			<Form />
 		</>
 	);
 };

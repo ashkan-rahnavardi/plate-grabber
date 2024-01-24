@@ -6,12 +6,13 @@ import SessionProvider from './_helper/SessionProvider';
 import { StorageProvider } from './_helper/storageContext';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
+import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
 	title: 'Plate Grabber',
-	description: 'Iggys Plate Grabber',
+	description: 'Plate Grabber',
 };
 
 export default async function RootLayout({
@@ -30,7 +31,11 @@ export default async function RootLayout({
 					{!session || !session.user ? (
 						redirect('/api/auth/signin')
 					) : (
-						<StorageProvider>{children}</StorageProvider>
+						<StorageProvider>
+							<Providers>
+								<main>{children}</main>
+							</Providers>
+						</StorageProvider>
 					)}
 				</SessionProvider>
 			</body>

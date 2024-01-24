@@ -3,6 +3,7 @@ import FormModel from '@/models/form';
 import { NextResponse } from 'next/server';
 
 // TO DO: Save post to database
+// Can u save buffer form to session storage?
 
 export async function GET() {
 	const con = await dbConnect();
