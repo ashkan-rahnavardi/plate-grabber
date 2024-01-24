@@ -1,7 +1,8 @@
-'use client';
+// 'use client';
 import Form from '@/app/_servercomps/form';
 import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
+import Nav from './_servercomps/navbar';
 import Dashboard from './dashboard';
 
 async function postData(url = '', data = {}) {
@@ -29,17 +30,18 @@ async function handleClick() {
 }
 
 const Home: React.FC = () => {
-	const session = useSession();
+	// const session = useSession();
 
-	if (session) {
-		console.log(session);
-	}
+	// if (session) {
+	// 	console.log(session);
+	// }
 	return (
 		<>
-			<button onClick={handleClick}>Test</button>
-			<div>{session?.data?.user?.name}</div>
-			<button onClick={() => signOut()}>Logout</button>
-			<Dashboard />
+			{/* <button onClick={handleClick}>Test</button> */}
+			{/* <div>{session?.data?.user?.name}</div> */}
+			{/* <button onClick={() => signOut()}>Logout</button> */}
+			{/* <Dashboard /> */}
+			{/* <Nav /> */}
 			<Form />
 		</>
 	);

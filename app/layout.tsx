@@ -1,10 +1,10 @@
+import { authOptions } from '@/app/_lib/authOptions';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
 import { redirect } from 'next/navigation';
 import SessionProvider from './_helper/SessionProvider';
 import { StorageProvider } from './_helper/storageContext';
-import { authOptions } from './api/auth/[...nextauth]/route';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -27,17 +27,17 @@ export default async function RootLayout({
 				<title>Plate Grabber</title>
 			</head>
 			<body className={inter.className}>
-				<SessionProvider session={session}>
-					{!session || !session.user ? (
-						redirect('/api/auth/signin')
-					) : (
-						<StorageProvider>
-							<Providers>
-								<main>{children}</main>
-							</Providers>
-						</StorageProvider>
-					)}
-				</SessionProvider>
+				{/* <SessionProvider session={session}> */}
+				{!session || !session.user ? (
+					redirect('/api/auth/signin')
+				) : (
+					<StorageProvider>
+						<Providers>
+							<main>{children}</main>
+						</Providers>
+					</StorageProvider>
+				)}
+				{/* </SessionProvider> */}
 			</body>
 		</html>
 	);
