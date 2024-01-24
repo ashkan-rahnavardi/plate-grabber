@@ -1,61 +1,10 @@
-'use client';
-import debounce from '@/app/_helper/debounce';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-
-export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
-	// const handleChange = (
-	// 	event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	// ) => {
-	// 	const { name, value } = event.target;
-	// 	storageHelper.updateFormProperty(name, value);
-	// };
-
-	type FormData = {
-		[key: string]: any; // Replace 'any' with more specific types if possible
-	};
-
-	const handleChange = debounce(
-		async (event) => {
-			const { name, value } = event.target;
-			await saveFormDataToDatabase({ [name]: value });
-		},
-		1000 // 1000 milliseconds delay
-	);
-
-	const saveFormDataToDatabase = async (formData: FormData) => {
-		try {
-			await fetch('/api/saveFormData', {
-				// Replace with your server endpoint
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
-		} catch (error) {
-			console.error('Error saving form data:', error);
-		}
-	};
-
-	const loadForm = () => {
-		const inputElements = document.querySelectorAll('input, select, textarea');
-		const form = storageHelper.getFormById('current');
-
-		inputElements.forEach((element) => {
-			const name = element.getAttribute('name');
-			if (name) {
-				if (name in form) {
-					element.setAttribute('value', form[name]);
-				}
-			}
-		});
-	};
-
-	useEffect(() => {
-		loadForm();
-	}, []);
-
+export default function FormInputs({
+	data,
+	handleChange,
+}: {
+	data: any;
+	handleChange: (e: any) => void;
+}) {
 	return (
 		<div className="flex-col p-4">
 			<div className="input-container">
@@ -67,6 +16,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="Reference"
 					name="Reference"
+					value={data.Reference}
 					onChange={handleChange}
 				/>
 			</div>
@@ -78,6 +28,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					className="input-style"
 					id="Sides"
 					name="Sides"
+					value={data.Sides}
 					onChange={handleChange}
 				>
 					<option value="front">Both</option>
@@ -96,6 +47,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="HundredBlock"
 					name="HundredBlock"
+					value={data.HundredBlock}
 					onChange={handleChange}
 				/>
 			</div>
@@ -108,6 +60,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="Street"
 					name="Street"
+					value={data.Street}
 					onChange={handleChange}
 				/>
 			</div>
@@ -118,6 +71,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 				<select
 					id="StreetType"
 					name="StreetType"
+					value={data.StreetType}
 					onChange={handleChange}
 					className="input-style"
 				>
@@ -138,6 +92,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="SignWord"
 					name="SignWord"
+					value={data.SignWord}
 					onChange={handleChange}
 				/>
 			</div>
@@ -150,6 +105,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="date"
 					id="InstallDate"
 					name="InstallDate"
+					value={data.InstallDate}
 					onChange={handleChange}
 				/>
 			</div>
@@ -162,6 +118,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="time"
 					id="InstallTime"
 					name="InstallTime"
+					value={data.InstallTime}
 					onChange={handleChange}
 				/>
 			</div>
@@ -174,6 +131,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="Crew"
 					name="Crew"
+					value={data.Crew}
 					onChange={handleChange}
 				/>
 			</div>
@@ -186,6 +144,7 @@ export default function LicenseForm({ storageHelper }: { storageHelper: any }) {
 					type="text"
 					id="Signature"
 					name="Signature"
+					value={data.Signature}
 					onChange={handleChange}
 				/>
 			</div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Save } from '../actions';
 
 export default function SaveForm({ storageHelper }: { storageHelper: any }) {
 	const [showModal, setShowModal] = useState(false);
@@ -48,7 +49,8 @@ export default function SaveForm({ storageHelper }: { storageHelper: any }) {
 			<button
 				className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-1/3"
 				onClick={() => {
-					handleSave();
+					// handleSave();
+					Save();
 				}}
 			>
 				Save
