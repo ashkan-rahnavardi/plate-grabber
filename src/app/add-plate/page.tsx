@@ -1,4 +1,4 @@
-import ProCam from '../_components/procam';
+import ProCam from '@/components/procam';
 
 export default function Add() {
 	return <ProCam />;

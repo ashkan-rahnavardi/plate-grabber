@@ -1,9 +1,9 @@
 'use client';
 
+import Form from '@/components/form';
+import SavedForms from '@/components/savedForms';
 import { useState } from 'react';
-import Form from './_components/form';
-import SavedForms from './_components/savedForms';
-import { StorageHelperType, useStorage } from './_helper/storageContext';
+import { StorageHelperType, useStorage } from '../services/storageContext';
 
 export default function Dashboard() {
 	const [isFormVisible, setFormVisibility] = useState(true);

@@ -1,4 +1,4 @@
-import StorageHelper, { LicenseForm } from '../_helper/storageHelper';
+import StorageHelper, { LicenseForm } from '@/services/storageHelper';
 
 describe('StorageHelper', () => {
 	// Test case for getInstance method

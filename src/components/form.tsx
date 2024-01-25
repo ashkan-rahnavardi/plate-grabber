@@ -1,13 +1,15 @@
 'use client';
 
+import { Save } from '@/actions/actions';
+import { StorageHelperType, useStorage } from '@/services/storageContext';
 import { useState } from 'react';
-import AddPlate from '../_components/addPlate';
-import ClearForm from '../_components/clearForm';
-import SaveForm from '../_components/saveFrom';
-import ViewPlates from '../_components/viewPlates';
-import { StorageHelperType, useStorage } from '../_helper/storageContext';
-import { Save } from '../actions';
+import AddPlate from './addPlate';
+import ClearForm from './clearForm';
 import FormInputs from './formInputs';
+import SaveForm from './saveFrom';
+import ViewPlates from './viewPlates';
+
+// SAVE FORM IS NOT BEING USED, IVE HARD CODED THE SAVE BUTTON AT THE MOMENT
 
 export default function Form() {
 	const emptyForm = {

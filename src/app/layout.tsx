@@ -1,12 +1,11 @@
-import { authOptions } from '@/app/_lib/authOptions';
+import { authOptions } from '@/libs/authOptions';
+import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
 import { redirect } from 'next/navigation';
-import SessionProvider from './_helper/SessionProvider';
-import { StorageProvider } from './_helper/storageContext';
-import './globals.css';
-import { Providers } from './providers';
+import SessionProvider from '../services/SessionProvider';
+import { StorageProvider } from '../services/storageContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,9 +31,7 @@ export default async function RootLayout({
 						redirect('/api/auth/signin')
 					) : (
 						<StorageProvider>
-							<Providers>
-								<main>{children}</main>
-							</Providers>
+							<main>{children}</main>
 						</StorageProvider>
 					)}
 				</SessionProvider>

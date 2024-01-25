@@ -1,9 +1,9 @@
 'use client';
 
+import { StorageHelperType, useStorage } from '@/services/storageContext';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera, CameraType } from 'react-camera-pro';
-import { StorageHelperType, useStorage } from '../_helper/storageContext';
 
 // TO DO: finish converting styled comp to tailwind
 

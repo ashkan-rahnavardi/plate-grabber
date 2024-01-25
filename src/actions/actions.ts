@@ -1,6 +1,6 @@
 'use server';
-import { authOptions } from '@/app/_lib/authOptions';
-import dbConnect from '@/app/_lib/dbConnect';
+import dbConnect from '@/database/dbConnect';
+import { authOptions } from '@/libs/authOptions';
 import FormModel from '@/models/form';
 import UserModel from '@/models/user';
 import { getServerSession } from 'next-auth/next';

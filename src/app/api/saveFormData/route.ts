@@ -1,4 +1,4 @@
-import dbConnect from '@/app/_lib/dbConnect';
+import dbConnect from '@/database/dbConnect';
 import FormModel from '@/models/form';
 import { NextResponse } from 'next/server';
 
