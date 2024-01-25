@@ -1,4 +1,4 @@
-import { authOptions } from '@/libs/authOptions';
+import { authOptions } from '@/lib/authOptions';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
