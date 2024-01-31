@@ -1,21 +1,21 @@
-'use client';
-import { signOut, useSession } from 'next-auth/react';
-import React from 'react';
-
 import TopNav from '@/components/TopNav';
 import Dashboard from '@/containers/dashboard';
+import { auth } from '@/services/auth';
+import { UserSession } from '@/types/userSession';
+import React from 'react';
 
-const Home: React.FC = () => {
-	// const session = useSession();
+export default async function Page() {
+	const session = await auth();
 
-	return (
-		<>
-			{/* <div>{session?.data?.user?.name}</div> */}
-			{/* <button onClick={() => signOut()}>Logout</button> */}
-			{/* <Dashboard /> */}
-			<TopNav />
-		</>
-	);
-};
+	console.log(session);
 
-export default Home;
+	if (session && session.user) {
+		const user = session.user as UserSession;
+		return (
+			<>
+				<TopNav user={user} />
+				{/* <Dashboard /> */}
+			</>
+		);
+	}
+}
