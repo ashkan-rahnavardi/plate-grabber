@@ -7,6 +7,9 @@ The main branch features the first itteration of the app, purely front-end with 
 
 The dev branch features the second itteration of the app (currently in progress), I have connected MongoDB for the backend database, NextAuth for authentification and I am re-amping the UI using Shadcn UI library. 
 
+## Demo
+A demo of the application is available on my personal website [here](https://www.ashkans.world/projects/Plate-Grabber)
+
 ## Technologies Used
 - React-Camera-Pro (modified version)
 - Next.js v14
