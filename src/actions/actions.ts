@@ -1,13 +1,12 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
-import { authOptions } from '@/lib/authOptions';
 import FormModel from '@/models/form';
 import UserModel from '@/models/user';
-import { getServerSession } from 'next-auth/next';
+import { auth } from '@/services/auth';
 
 export async function Save(formData: any) {
 	await dbConnect();
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 
 	const form = await FormModel.findOneAndUpdate(
 		{ Reference: formData.Reference },
