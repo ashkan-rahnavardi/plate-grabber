@@ -33,3 +33,15 @@ export async function Save(formData: any) {
 		console.log('no session');
 	}
 }
+
+export async function GetForms() {
+	await dbConnect();
+	const session = await auth();
+	if (session) {
+		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
+		const forms = await FormModel.find({ Email: user.email });
+		return forms;
+	} else {
+		return [];
+	}
+}

@@ -27,13 +27,16 @@ export default async function RootLayout({
 				{!session || !session.user ? (
 					redirect('/api/auth/signin')
 				) : (
-					<StorageProvider>
-						<main>{children}</main>
+					<div className="relative flex min-h-screen flex-col bg-background p-2">
+						<main className="flex-1">{children}</main>
+					</div>
+					// <StorageProvider>
+					// 	{/* <main>{children}</main> */}
 
-						{/* <div className="relative flex min-h-screen flex-col bg-background p-2">
-							<main className="flex-1">{children}</main>
-						</div> */}
-					</StorageProvider>
+					// 	<div className="relative flex min-h-screen flex-col bg-background p-2">
+					// 		<main className="flex-1">{children}</main>
+					// 	</div>
+					// </StorageProvider>
 				)}
 			</body>
 		</html>
