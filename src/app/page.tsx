@@ -1,4 +1,5 @@
 import { GetForms } from '@/actions/actions';
+import NewFormButton from '@/components/Buttons/newForm';
 import TopNav from '@/components/TopNav';
 import Dashboard from '@/containers/dashboard';
 import { auth } from '@/services/auth';
@@ -39,6 +40,9 @@ export default async function Page() {
 
 				<div className="container mx-auto py-10">
 					<DataTable columns={columns} data={data} />
+				</div>
+				<div className="fixed bottom-0 left-0 p-4">
+					<NewFormButton />
 				</div>
 			</>
 		);

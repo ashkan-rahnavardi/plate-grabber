@@ -27,7 +27,7 @@ export default async function RootLayout({
 				{!session || !session.user ? (
 					redirect('/api/auth/signin')
 				) : (
-					<div className="relative flex min-h-screen flex-col bg-background p-2">
+					<div className="relative flex min-h-screen flex-col bg-background p-4">
 						<main className="flex-1">{children}</main>
 					</div>
 					// <StorageProvider>
