@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/services/theme-provider';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -28,17 +29,33 @@ export default async function RootLayout({
 					redirect('/api/auth/signin')
 				) : (
 					<div className="relative flex min-h-screen flex-col bg-background p-4">
-						<main className="flex-1">{children}</main>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+							{children}
+						</ThemeProvider>
 					</div>
-					// <StorageProvider>
-					// 	{/* <main>{children}</main> */}
-
-					// 	<div className="relative flex min-h-screen flex-col bg-background p-2">
-					// 		<main className="flex-1">{children}</main>
-					// 	</div>
-					// </StorageProvider>
 				)}
 			</body>
 		</html>
 	);
 }
+
+// {!session || !session.user ? (
+// 	redirect('/api/auth/signin')
+// ) : (
+// 	<div className="relative flex min-h-screen flex-col bg-background p-4">
+// 		<ThemeProvider
+// 			attribute="class"
+// 			defaultTheme="system"
+// 			enableSystem
+// 			disableTransitionOnChange
+// 		>
+// 			{children}
+// 		</ThemeProvider>
+// 	</div>
+
+// )}
