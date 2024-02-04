@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/services/theme-provider';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
@@ -39,6 +40,7 @@ export default async function RootLayout({
 						</ThemeProvider>
 					</div>
 				)}
+				<Toaster />
 			</body>
 		</html>
 	);
