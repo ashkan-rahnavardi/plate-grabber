@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+
 import {
 	Form,
 	FormControl,
@@ -12,23 +12,11 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
+
 import { toast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
+
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -41,7 +29,7 @@ const FormSchema = z.object({
 	blocks: z.string().optional(),
 	sides: z.string().optional(),
 	wording: z.string().optional(),
-	date: z.date().optional(),
+	date: z.string().optional(),
 	time: z.string().optional(),
 });
 
@@ -110,60 +98,36 @@ export default function ProfileForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="time"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Install Time</FormLabel>
-							<FormControl>
-								<Input {...field} type="time" />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="date"
-					render={({ field }) => (
-						<FormItem className="flex flex-col">
-							<FormLabel>Install Date</FormLabel>
-							<Popover>
-								<PopoverTrigger asChild>
-									<FormControl>
-										<Button
-											variant={'outline'}
-											className={cn(
-												' pl-3 text-left font-normal',
-												!field.value && 'text-muted-foreground'
-											)}
-										>
-											{field.value ? (
-												format(field.value, 'PPP')
-											) : (
-												<span>Pick a date</span>
-											)}
-											<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-										</Button>
-									</FormControl>
-								</PopoverTrigger>
-								<PopoverContent className="w-auto p-0" align="start">
-									<Calendar
-										mode="single"
-										selected={field.value}
-										onSelect={field.onChange}
-										disabled={(date) =>
-											date > new Date() || date < new Date('1900-01-01')
-										}
-										initialFocus
-									/>
-								</PopoverContent>
-							</Popover>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div className="flex justify-between">
+					<FormField
+						control={form.control}
+						name="time"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Install Time</FormLabel>
+								<FormControl>
+									<Input {...field} type="time" />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="date"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Install Date</FormLabel>
+								<FormControl>
+									<Input {...field} type="date" />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+
 				<Button type="submit">Submit</Button>
 			</form>
 		</Form>
