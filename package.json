@@ -3,9 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "npm-run-all -p dev:*",
-		"dev:app": "next dev",
-		"dev:ssl": "local-ssl-proxy --key localhost-key.pem --cert localhost.pem --source 3001 --target 3000",
+		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
