@@ -98,29 +98,28 @@ export default function ProfileForm() {
 						</FormItem>
 					)}
 				/>
-				<div className="flex justify-between">
+				<div className="flex justify-between space-x-4">
 					<FormField
 						control={form.control}
-						name="time"
+						name="date"
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Install Time</FormLabel>
+							<FormItem className="w-2/3">
+								<FormLabel>Install Date</FormLabel>
 								<FormControl>
-									<Input {...field} type="time" />
+									<Input {...field} type="date" />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-
 					<FormField
 						control={form.control}
-						name="date"
+						name="time"
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Install Date</FormLabel>
+							<FormItem className="w-1/3">
+								<FormLabel>Install Time</FormLabel>
 								<FormControl>
-									<Input {...field} type="date" />
+									<Input {...field} type="time" />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
