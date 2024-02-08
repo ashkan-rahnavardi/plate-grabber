@@ -4,12 +4,28 @@ import type { NextAuthConfig } from 'next-auth';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
-export const config = {
-	providers: [GoogleProvider],
-	adapter: MongoDBAdapter(clientPromise),
-} satisfies NextAuthConfig;
+// export const { handlers, auth, signIn, signOut } = NextAuth({
+// 	providers: [
+// 		GoogleProvider({
+// 			clientId: process.env.AUTH_GOOGLE_ID ?? '',
+// 			clientSecret: process.env.AUTH_GOOGLE_SECRET ?? '',
+// 		}),
+// 	],
+// 	adapter: MongoDBAdapter(clientPromise),
+// });
 
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+// export const config = {
+// 	providers: [GoogleProvider],
+// 	adapter: MongoDBAdapter(clientPromise),
+// } satisfies NextAuthConfig;
+
+export const { handlers, auth, signIn } = NextAuth((req) => {
+	// console.log(req);
+	return {
+		providers: [GoogleProvider],
+		adapter: MongoDBAdapter(clientPromise),
+	};
+});
 
 // export const config = {
 // 	handlers: { GET, POST },

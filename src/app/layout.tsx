@@ -27,7 +27,7 @@ export default async function RootLayout({
 			</head>
 			<body className={inter.className}>
 				{!session || !session.user ? (
-					redirect('/api/auth/signin')
+					(console.log('redirecting'), redirect('/api/auth/signin'))
 				) : (
 					<div className="relative flex min-h-screen flex-col bg-background p-4">
 						<ThemeProvider
