@@ -1,7 +1,9 @@
 import { GetForms } from '@/actions/actions';
 import HomePage from '@/containers/home';
-import { auth } from '@/services/auth';
+import { authOptions } from '@/lib/authOptions';
 import { UserSession } from '@/types/userSession';
+import { getServerSession } from 'next-auth/next';
+import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import { FormSummary } from '../components/DataTable/columns';
 
@@ -23,7 +25,8 @@ async function getData(): Promise<FormSummary[]> {
 }
 
 export default async function Page() {
-	const session = await auth();
+	const session = await getServerSession(authOptions);
+	// const session = useSession();
 	const data = await getData();
 
 	if (session && session.user) {

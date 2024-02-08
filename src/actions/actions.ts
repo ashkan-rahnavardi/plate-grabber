@@ -2,12 +2,13 @@
 import dbConnect from '@/database/dbConnect';
 import FormModel from '@/models/form';
 import UserModel from '@/models/user';
-import { auth } from '@/services/auth';
+
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth/next';
 
 export async function Save(formData: any) {
 	await dbConnect();
-	const session = await auth();
-
+	const session = await getServerSession(authOptions);
 	const form = await FormModel.findOneAndUpdate(
 		{ Reference: formData.Reference },
 		formData
@@ -36,7 +37,7 @@ export async function Save(formData: any) {
 
 export async function GetForms() {
 	await dbConnect();
-	const session = await auth();
+	const session = await getServerSession(authOptions);
 	if (session) {
 		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
 		const forms = await FormModel.find({ Email: user.email });
