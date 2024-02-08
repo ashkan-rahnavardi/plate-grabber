@@ -33,6 +33,7 @@
 		"next-themes": "^0.2.1",
 		"react": "^18",
 		"react-camera-pro": "git+https://github.com/ashkan-rahnavardi/react-camera-pro-18.git",
+		"react-day-picker": "^8.10.0",
 		"react-dom": "^18",
 		"react-hook-form": "^7.50.0",
 		"styled-components": "^5.2.1",
