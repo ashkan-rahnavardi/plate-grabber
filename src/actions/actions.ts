@@ -41,9 +41,14 @@ export async function GetForms() {
 	if (session) {
 		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
 		const forms = await FormModel.find({ Email: user.email });
-		console.log(forms);
 		return forms;
 	} else {
 		return [];
 	}
+}
+
+export async function GetForm(id: string) {
+	await dbConnect();
+	const form = await FormModel.findById(id);
+	return form;
 }

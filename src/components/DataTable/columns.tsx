@@ -108,9 +108,9 @@ export const columns: ColumnDef<FormSummary>[] = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(form._id)}
+							onClick={() => navigator.clipboard.writeText(form.reference)}
 						>
-							Copy form ID
+							Copy form Reference
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>View Form</DropdownMenuItem>
