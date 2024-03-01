@@ -1,9 +1,9 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
+import { authOptions } from '@/lib/authOptions';
 import FormModel from '@/models/form';
 import UserModel from '@/models/user';
-
-import { authOptions } from '@/lib/authOptions';
+import { UserSession } from '@/types/userSession';
 import { getServerSession } from 'next-auth/next';
 
 export async function Save(formData: any) {
@@ -35,12 +35,13 @@ export async function Save(formData: any) {
 	}
 }
 
-export async function GetForms() {
+export async function GetForms(userSession: UserSession) {
 	await dbConnect();
-	const session = await getServerSession(authOptions);
-	if (session) {
-		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
-		const formData = await FormModel.find({ Email: user.email });
+
+	console.log('userSession', userSession);
+
+	if (userSession) {
+		const formData = await FormModel.find({ Email: userSession.email });
 
 		// convert to plain object
 		const forms = formData.map((form) => {
@@ -54,6 +55,26 @@ export async function GetForms() {
 		return [];
 	}
 }
+
+// export async function GetForms() {
+// 	await dbConnect();
+// 	const session = await getServerSession(authOptions);
+// 	if (session) {
+// 		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
+// 		const formData = await FormModel.find({ Email: user.email });
+
+// 		// convert to plain object
+// 		const forms = formData.map((form) => {
+// 			const obj = form.toObject();
+// 			obj._id = obj._id.toString();
+// 			return obj;
+// 		});
+
+// 		return forms;
+// 	} else {
+// 		return [];
+// 	}
+// }
 
 export async function GetForm(id: string) {
 	await dbConnect();

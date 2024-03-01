@@ -10,6 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LicenseForm } from '@/types/licenseForm';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -22,7 +23,7 @@ export type FormSummary = {
 	// status: 'Submitted' | 'Completed' | 'In Progress';
 };
 
-export const columns: ColumnDef<FormSummary>[] = [
+export const columns: ColumnDef<LicenseForm>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -46,7 +47,7 @@ export const columns: ColumnDef<FormSummary>[] = [
 		enableHiding: false,
 	},
 	{
-		accessorKey: 'date',
+		accessorKey: 'InstallDate',
 		// header: () => <div className="text-left">Date</div>,
 		header: ({ column }) => {
 			return (
@@ -61,7 +62,7 @@ export const columns: ColumnDef<FormSummary>[] = [
 		},
 
 		cell: ({ row }) => {
-			const date = row.getValue('date') as string;
+			const date = row.getValue('InstallDate') as string;
 			const [year, month, day] = date.split('-').map(Number);
 			const formattedDate: Date = new Date(year, month - 1, day);
 			const options: Intl.DateTimeFormatOptions = {
@@ -78,18 +79,18 @@ export const columns: ColumnDef<FormSummary>[] = [
 		},
 	},
 	{
-		accessorKey: 'reference',
+		accessorKey: 'Reference',
 		header: () => <div className="text-left">Reference</div>,
 		cell: ({ row }) => {
-			const reference = row.getValue('reference') as string;
+			const reference = row.getValue('Reference') as string;
 			return <div className="text-left font-medium">{reference}</div>;
 		},
 	},
 	{
-		accessorKey: 'street',
+		accessorKey: 'Street',
 		header: () => <div className="text-right">Street</div>,
 		cell: ({ row }) => {
-			const street = row.getValue('street') as string;
+			const street = row.getValue('Street') as string;
 			return <div className="text-right font-medium">{street}</div>;
 		},
 	},
@@ -109,7 +110,7 @@ export const columns: ColumnDef<FormSummary>[] = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(form.reference)}
+							onClick={() => navigator.clipboard.writeText(form.Reference)}
 						>
 							Copy form Reference
 						</DropdownMenuItem>

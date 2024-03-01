@@ -2,6 +2,7 @@ import NewFormButton from '@/components/Buttons/newForm';
 import { FormSummary, columns } from '@/components/DataTable/columns';
 import { DataTable } from '@/components/DataTable/data-table';
 import TopNav from '@/components/TopNav';
+import { LicenseForm } from '@/types/licenseForm';
 import { UserSession } from '@/types/userSession';
 import React from 'react';
 
@@ -12,7 +13,7 @@ export default function Page({
 	data,
 }: {
 	user: UserSession;
-	data: FormSummary[];
+	data: LicenseForm[];
 }) {
 	console.log(data);
 	return (
