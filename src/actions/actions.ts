@@ -40,7 +40,15 @@ export async function GetForms() {
 	const session = await getServerSession(authOptions);
 	if (session) {
 		const user = await UserModel.findOne({ email: session.user?.email ?? '' });
-		const forms = await FormModel.find({ Email: user.email });
+		const formData = await FormModel.find({ Email: user.email });
+
+		// convert to plain object
+		const forms = formData.map((form) => {
+			const obj = form.toObject();
+			obj._id = obj._id.toString();
+			return obj;
+		});
+
 		return forms;
 	} else {
 		return [];

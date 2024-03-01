@@ -14,6 +14,7 @@ export default function Page({
 	user: UserSession;
 	data: FormSummary[];
 }) {
+	console.log(data);
 	return (
 		<>
 			<TopNav user={user} />

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
+import Link from 'next/link';
 
 export type FormSummary = {
 	_id: string;
@@ -113,7 +114,9 @@ export const columns: ColumnDef<FormSummary>[] = [
 							Copy form Reference
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>View Form</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Link href="/form/new">View Form</Link>
+						</DropdownMenuItem>
 						<DropdownMenuItem>Edit Form</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
