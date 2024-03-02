@@ -47,7 +47,7 @@ export const columns: ColumnDef<LicenseForm>[] = [
 		enableHiding: false,
 	},
 	{
-		accessorKey: 'InstallDate',
+		accessorKey: 'installDate',
 		// header: () => <div className="text-left">Date</div>,
 		header: ({ column }) => {
 			return (
@@ -62,7 +62,7 @@ export const columns: ColumnDef<LicenseForm>[] = [
 		},
 
 		cell: ({ row }) => {
-			const date = row.getValue('InstallDate') as string;
+			const date = row.getValue('installDate') as string;
 			const [year, month, day] = date.split('-').map(Number);
 			const formattedDate: Date = new Date(year, month - 1, day);
 			const options: Intl.DateTimeFormatOptions = {
@@ -79,18 +79,18 @@ export const columns: ColumnDef<LicenseForm>[] = [
 		},
 	},
 	{
-		accessorKey: 'Reference',
+		accessorKey: 'reference',
 		header: () => <div className="text-left">Reference</div>,
 		cell: ({ row }) => {
-			const reference = row.getValue('Reference') as string;
+			const reference = row.getValue('reference') as string;
 			return <div className="text-left font-medium">{reference}</div>;
 		},
 	},
 	{
-		accessorKey: 'Street',
+		accessorKey: 'street',
 		header: () => <div className="text-right">Street</div>,
 		cell: ({ row }) => {
-			const street = row.getValue('Street') as string;
+			const street = row.getValue('street') as string;
 			return <div className="text-right font-medium">{street}</div>;
 		},
 	},
@@ -110,7 +110,7 @@ export const columns: ColumnDef<LicenseForm>[] = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(form.Reference)}
+							onClick={() => navigator.clipboard.writeText(form.reference)}
 						>
 							Copy form Reference
 						</DropdownMenuItem>

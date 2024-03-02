@@ -41,7 +41,9 @@ export async function GetForms(userSession: UserSession) {
 	console.log('userSession', userSession);
 
 	if (userSession) {
-		const formData = await FormModel.find({ Email: userSession.email });
+		const formData = await FormModel.find({ email: userSession.email });
+
+		console.log('formData', formData);
 
 		// convert to plain object
 		const forms = formData.map((form) => {

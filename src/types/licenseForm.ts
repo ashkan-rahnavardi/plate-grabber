@@ -1,16 +1,16 @@
 export type LicenseForm = {
-	id: string;
+	_id: string;
 	reference: string;
+	email: string;
 	sides: string;
-	hundred_blocks: string;
-	current_block: string;
+	hundredBlocks: string;
 	street: string;
-	road_type: string;
-	sign_wording: string;
+	roadType: string;
+	signWording: string;
 	installDate: string;
-	install_time: string;
+	installTime: string;
 	crew: string;
 	signature: string;
-	plates: Record<string, string[]>;
-	[key: string]: string | string[] | Record<string, string[]>;
+	// plates: Record<string, string[]>;
+	// [key: string]: string | string[] | Record<string, string[]>;
 };
