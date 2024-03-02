@@ -15,14 +15,6 @@ import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
 
-export type FormSummary = {
-	_id: string;
-	date: string;
-	reference: string;
-	street: string;
-	// status: 'Submitted' | 'Completed' | 'In Progress';
-};
-
 export const columns: ColumnDef<LicenseForm>[] = [
 	{
 		id: 'select',
@@ -124,8 +116,4 @@ export const columns: ColumnDef<LicenseForm>[] = [
 			);
 		},
 	},
-	// {
-	// 	header: 'Status',
-	// 	accessorKey: 'status',
-	// },
 ];

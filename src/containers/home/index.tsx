@@ -1,5 +1,5 @@
 import NewFormButton from '@/components/Buttons/newForm';
-import { FormSummary, columns } from '@/components/DataTable/columns';
+import { columns } from '@/components/DataTable/columns';
 import { DataTable } from '@/components/DataTable/data-table';
 import TopNav from '@/components/TopNav';
 import { LicenseForm } from '@/types/licenseForm';

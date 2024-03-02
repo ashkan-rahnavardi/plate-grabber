@@ -10,7 +10,6 @@ import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
 import { redirect } from 'next/navigation';
 import SessionProvider from '../services/SessionProvider';
-import { StorageProvider } from '../services/storageContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -60,34 +59,3 @@ export default async function RootLayout({
 		</html>
 	);
 }
-
-// {!session || !session.user ? (
-// 	(console.log('redirecting'), redirect('/api/auth/signin'))
-// ) : (
-// 	<div className="relative flex min-h-screen flex-col bg-background p-4">
-// 		<ThemeProvider
-// 			attribute="class"
-// 			defaultTheme="system"
-// 			enableSystem
-// 			disableTransitionOnChange
-// 		>
-// 			{children}
-// 		</ThemeProvider>
-// 	</div>
-// )}
-
-// {!session || !session.user ? (
-// 	redirect('/api/auth/signin')
-// ) : (
-// 	<div className="relative flex min-h-screen flex-col bg-background p-4">
-// 		<ThemeProvider
-// 			attribute="class"
-// 			defaultTheme="system"
-// 			enableSystem
-// 			disableTransitionOnChange
-// 		>
-// 			{children}
-// 		</ThemeProvider>
-// 	</div>
-
-// )}
