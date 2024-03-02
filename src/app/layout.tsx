@@ -1,5 +1,5 @@
 import { GetForms } from '@/actions/actions';
-import { Toaster } from '@/components/ui/toaster';
+// import { Toaster } from '@/components/ui/toaster';
 import { authOptions } from '@/lib/authOptions';
 import { FormsProvider } from '@/services/FormsProvider';
 import { ThemeProvider } from '@/services/theme-provider';
@@ -34,7 +34,7 @@ export default async function RootLayout({
 	}
 
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<title>Plate Grabber</title>
 			</head>
@@ -54,7 +54,7 @@ export default async function RootLayout({
 					</FormsProvider>
 				</SessionProvider>
 
-				<Toaster />
+				{/* <Toaster /> */}
 			</body>
 		</html>
 	);

@@ -15,7 +15,6 @@ export default function Page({
 	user: UserSession;
 	data: LicenseForm[];
 }) {
-	console.log(data);
 	return (
 		<>
 			<TopNav user={user} />

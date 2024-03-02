@@ -38,13 +38,8 @@ export async function Save(formData: any) {
 export async function GetForms(userSession: UserSession) {
 	await dbConnect();
 
-	console.log('userSession', userSession);
-
 	if (userSession) {
 		const formData = await FormModel.find({ email: userSession.email });
-
-		console.log('formData', formData);
-
 		// convert to plain object
 		const forms = formData.map((form) => {
 			const obj = form.toObject();

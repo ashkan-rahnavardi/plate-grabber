@@ -10,7 +10,7 @@ export default function Page() {
 	const session = useSession();
 	const forms = useContext(FormsContext);
 
-	console.log('forms from context', forms);
+	// console.log('forms from context', forms);
 
 	if (session.data && session.data.user) {
 		const user = session.data.user as UserSession;

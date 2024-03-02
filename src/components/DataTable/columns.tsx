@@ -108,7 +108,7 @@ export const columns: ColumnDef<LicenseForm>[] = [
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<Link href="/form/new">View Form</Link>
+							<Link href={`form/${form.reference}`}>View Form</Link>
 						</DropdownMenuItem>
 						<DropdownMenuItem>Edit Form</DropdownMenuItem>
 					</DropdownMenuContent>
