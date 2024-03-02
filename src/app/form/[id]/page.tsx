@@ -1,5 +1,5 @@
-import LicenseForm from '@/components/Form';
+import LicenseForm from '@/containers/Form';
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page() {
 	return <LicenseForm />;
 }

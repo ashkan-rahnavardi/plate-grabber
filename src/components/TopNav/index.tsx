@@ -1,12 +1,11 @@
 import DarkToggle from '@/components/Buttons/darkToggle';
-import { UserSession } from '@/types/userSession';
 import React from 'react';
 import UserNav from './userNav';
 
-export default function index({ user }: { user: UserSession }) {
+export default function index() {
 	return (
 		<div className="flex w-full justify-between">
-			<UserNav user={user} />
+			<UserNav />
 			<DarkToggle />
 		</div>
 	);

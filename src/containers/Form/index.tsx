@@ -8,8 +8,8 @@ export default function Form() {
 	const params = useParams();
 	const forms = useContext(FormsContext);
 
-	console.log('params', params);
-	console.log('forms', forms);
+	console.log('params from form/index', params.id);
+	console.log('forms from form/index', forms);
 
 	return <div>Hello</div>;
 }

@@ -11,8 +11,18 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserSession } from '@/types/userSession';
+import { useSession } from 'next-auth/react';
 
-export default function UserNav({ user }: { user: UserSession }) {
+export default function UserNav() {
+	const session = useSession();
+	let user;
+
+	if (session.data && session.data.user) {
+		user = session.data.user as UserSession;
+	} else {
+		return <div>loading...</div>;
+	}
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

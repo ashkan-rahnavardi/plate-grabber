@@ -28,7 +28,7 @@ export default async function RootLayout({
 	let forms = [];
 
 	if (session && session.user) {
-		forms = await GetForms(session.user as UserSession);
+		forms = await GetForms(session.user.email as string);
 	} else {
 		redirect('/api/auth/signin');
 	}
