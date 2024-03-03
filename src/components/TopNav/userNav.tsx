@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserSession } from '@/types/userSession';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function UserNav() {
 	const session = useSession();
@@ -52,7 +52,7 @@ export default function UserNav() {
 					<DropdownMenuItem>Settings</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>Log out</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => signOut()}>Log out</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
