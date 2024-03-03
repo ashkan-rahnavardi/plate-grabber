@@ -3,6 +3,7 @@ import dbConnect from '@/database/dbConnect';
 import { authOptions } from '@/lib/authOptions';
 import FormModel from '@/models/form';
 import UserModel from '@/models/user';
+import { LicenseForm } from '@/types/licenseForm';
 import { UserSession } from '@/types/userSession';
 import { getServerSession } from 'next-auth/next';
 
@@ -32,6 +33,33 @@ export async function Save(formData: any) {
 		}
 	} else {
 		console.log('no session');
+	}
+}
+
+export async function saveForm(formData: LicenseForm) {
+	await dbConnect();
+
+	const newForm = new FormModel(formData);
+
+	try {
+		await newForm.save();
+
+		return { success: true, message: 'Great success! Form Save' };
+	} catch (err) {
+		const error = err as Error;
+		return { success: false, message: error.message || 'An error occurred' };
+	}
+}
+
+export async function updateForm(formData: LicenseForm) {
+	await dbConnect();
+
+	try {
+		await FormModel.findOneAndUpdate({ _id: formData._id }, formData);
+		return { success: true, message: 'Great success! Form Updated' };
+	} catch (err) {
+		const error = err as Error;
+		return { success: false, message: error.message || 'An error occurred' };
 	}
 }
 
