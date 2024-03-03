@@ -5,8 +5,6 @@ import TopNav from '@/components/TopNav';
 import { FormsContext } from '@/services/FormsProvider';
 import React, { useContext } from 'react';
 
-// Look into refactoring sending down the user session as props down the tree vs getting it at the component level
-
 export default function Page() {
 	const forms = useContext(FormsContext);
 
