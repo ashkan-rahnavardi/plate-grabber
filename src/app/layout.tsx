@@ -1,10 +1,8 @@
 import { GetForms } from '@/actions/actions';
-// import { Toaster } from '@/components/ui/toaster';
 import { authOptions } from '@/lib/authOptions';
 import { FormsProvider } from '@/services/FormsProvider';
 import { ThemeProvider } from '@/services/theme-provider';
 import '@/styles/globals.css';
-import { UserSession } from '@/types/userSession';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
@@ -53,8 +51,6 @@ export default async function RootLayout({
 						</div>
 					</FormsProvider>
 				</SessionProvider>
-
-				{/* <Toaster /> */}
 			</body>
 		</html>
 	);

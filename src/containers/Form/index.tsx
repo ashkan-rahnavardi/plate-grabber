@@ -10,27 +10,7 @@ import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
-// TO DO:
-// When the form is either saved or updated, the user should be redirected to the home page.
-// There should first be an alert displayed to show if its been saved or what the issue was, then the user
-// gets redirected
-
-// Make the the formContext is also updated, either via refresh or by updating the context directly.
-
-// make the the forms that are displayed in the home page are also updated
-
-//Change the layout of the forms to be more readable and user frienddly, everything doesn't
-// have to be in one line.
-
-// Will have to restucture the form Model as well to make sense with the new layout
-// Each road has a block and each block has sides, so the form should be structured in a way that
-
-// Delete form needs to be added as well to the overview
-// change the actions column to be a view/edit icon
-// being able to delete or download selected forms
-
 const emptyForm = {
-	// _id: '',
 	reference: '',
 	email: '',
 	sides: '',
@@ -43,6 +23,7 @@ const emptyForm = {
 	crew: '',
 	signature: '',
 };
+
 export default function Form() {
 	const params = useParams();
 	const forms = useContext(FormsContext);
