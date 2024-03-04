@@ -1,6 +1,7 @@
 'use client';
 
 import { saveForm, updateForm } from '@/actions/actions';
+import StreetInput from '@/components/Input/street';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormsContext } from '@/services/FormsProvider';
@@ -32,6 +33,8 @@ export default function Form() {
 		forms.find((form) => form.reference === params.id) || emptyForm
 	);
 
+	const streets = ['Georgia St.', 'Burrard St.', 'Granville St.'];
+
 	// add email and signature to form , email is required to save form
 	useEffect(() => {
 		const user = session.data?.user as UserSession;
@@ -62,18 +65,76 @@ export default function Form() {
 	};
 
 	return (
-		<div>
-			<div>
-				<label htmlFor="reference">Reference</label>
-				<Input
-					type="text"
-					id="reference"
-					name="reference"
-					value={form?.reference}
-					onChange={handleChange}
-				/>
+		<div className="space-y-2 ">
+			<div className="flex space-x-2 justify-between">
+				<div>
+					<label htmlFor="reference">Reference</label>
+					<Input
+						type="text"
+						id="reference"
+						name="reference"
+						value={form?.reference}
+						onChange={handleChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor="signWording">Sign Wording</label>
+					<Input
+						type="text"
+						id="signWording"
+						name="signWording"
+						value={form?.signWording}
+						onChange={handleChange}
+					/>
+				</div>
 			</div>
-			<div>
+			<div className="flex space-x-2 justify-between">
+				<div>
+					<label htmlFor="signature">Signature</label>
+					<Input
+						type="text"
+						id="signature"
+						name="signature"
+						value={form?.signature}
+						onChange={handleChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor="crew">Crew</label>
+					<Input
+						type="text"
+						id="crew"
+						name="crew"
+						value={form?.crew}
+						onChange={handleChange}
+					/>
+				</div>
+			</div>
+			<div className="flex space-x-2 justify-between">
+				<div>
+					<label htmlFor="installDate">Install Date</label>
+					<Input
+						type="date"
+						id="installDate"
+						name="installDate"
+						value={form?.installDate}
+						onChange={handleChange}
+					/>
+				</div>
+				<div>
+					<label htmlFor="installTime">Install Time</label>
+					<Input
+						type="time"
+						id="installTime"
+						name="installTime"
+						value={form?.installTime}
+						onChange={handleChange}
+					/>
+				</div>
+			</div>
+			<StreetInput />
+
+			{/* <div>
 				<label htmlFor="sides">Sides</label>
 				<Input
 					type="text"
@@ -100,74 +161,20 @@ export default function Form() {
 					id="street"
 					name="street"
 					value={form?.street}
+					placeholder="e.g. Georgia St. "
 					onChange={handleChange}
 				/>
+			</div> */}
+
+			{/* Quick fix to get the button out of the way, need to make the parrent 
+			div height full screen and then position these buttons at the bottom */}
+			<div className="absolute bottom-52">
+				{params.id === 'new' ? (
+					<Button onClick={handleSave}>Save</Button>
+				) : (
+					<Button onClick={handleUpdate}>Update</Button>
+				)}
 			</div>
-			<div>
-				<label htmlFor="roadType">Road Type</label>
-				<Input
-					type="text"
-					id="roadType"
-					name="roadType"
-					value={form?.roadType}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="signWording">Sign Wording</label>
-				<Input
-					type="text"
-					id="signWording"
-					name="signWording"
-					value={form?.signWording}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="installDate">Install Date</label>
-				<Input
-					type="date"
-					id="installDate"
-					name="installDate"
-					value={form?.installDate}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="installTime">Install Time</label>
-				<Input
-					type="time"
-					id="installTime"
-					name="installTime"
-					value={form?.installTime}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="crew">Crew</label>
-				<Input
-					type="text"
-					id="crew"
-					name="crew"
-					value={form?.crew}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="signature">Signature</label>
-				<Input
-					type="text"
-					id="signature"
-					name="signature"
-					value={form?.signature}
-					onChange={handleChange}
-				/>
-			</div>
-			{params.id === 'new' ? (
-				<Button onClick={handleSave}>Save</Button>
-			) : (
-				<Button onClick={handleUpdate}>Update</Button>
-			)}
 		</div>
 	);
 }

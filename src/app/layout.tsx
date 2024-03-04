@@ -39,7 +39,7 @@ export default async function RootLayout({
 			<body className={inter.className}>
 				<SessionProvider session={session}>
 					<FormsProvider formsData={forms}>
-						<div className="relative flex min-h-screen flex-col bg-background p-2">
+						<div className="relative flex min-h-screen flex-col bg-background p-4">
 							<ThemeProvider
 								attribute="class"
 								defaultTheme="system"
