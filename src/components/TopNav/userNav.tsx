@@ -10,6 +10,7 @@ import {
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getInitials } from '@/lib/utils';
 import { UserSession } from '@/types/userSession';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -23,6 +24,8 @@ export default function UserNav() {
 		return <div>loading...</div>;
 	}
 
+	const initials = getInitials(user.name);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -33,7 +36,7 @@ export default function UserNav() {
 							alt="@shadcn"
 							referrerPolicy="no-referrer"
 						/>
-						<AvatarFallback>AR</AvatarFallback>
+						<AvatarFallback>{initials}</AvatarFallback>
 					</Avatar>
 				</Button>
 			</DropdownMenuTrigger>
