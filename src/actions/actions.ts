@@ -1,9 +1,9 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
 import FormModel from '@/models/form';
-import { LicenseForm } from '@/types/licenseForm';
+import { LicenseForm, NewLicenseForm } from '@/types/licenseForm';
 
-export async function saveForm(formData: LicenseForm) {
+export async function saveForm(formData: NewLicenseForm) {
 	await dbConnect();
 
 	const newForm = new FormModel(formData);
