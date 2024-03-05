@@ -10,7 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LicenseForm } from '@/types/licenseForm';
+import { LicenseForm, Street } from '@/types/licenseForm';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -79,11 +79,14 @@ export const columns: ColumnDef<LicenseForm>[] = [
 		},
 	},
 	{
-		accessorKey: 'street',
+		accessorKey: 'location',
 		header: () => <div className="text-right">Street</div>,
 		cell: ({ row }) => {
-			const street = row.getValue('street') as string;
-			return <div className="text-right font-medium">{street}</div>;
+			const location = row.getValue('location') as Street[];
+
+			// extract street names from location array
+			const streets = location.map((street) => street.name).join(', ');
+			return <div className="text-right font-medium">{streets}</div>;
 		},
 	},
 	{
