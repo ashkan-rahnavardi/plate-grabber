@@ -1,17 +1,19 @@
 'use client';
 
 import { saveForm, updateForm } from '@/actions/actions';
-import StreetInput from '@/components/Input/street';
+import Essential from '@/components/InputForm/essential';
+import StreetInput from '@/components/InputForm/street';
+import TopNav from '@/components/TopNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormsContext } from '@/services/FormsProvider';
-import { LicenseForm } from '@/types/licenseForm';
+import { LicenseForm, NewLicenseForm } from '@/types/licenseForm';
 import { UserSession } from '@/types/userSession';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
-const emptyForm = {
+const emptyForm: NewLicenseForm = {
 	reference: '',
 	email: '',
 	sides: '',
@@ -23,6 +25,44 @@ const emptyForm = {
 	installTime: '',
 	crew: '',
 	signature: '',
+	location: [
+		{
+			name: '',
+			blocks: [
+				{
+					number: '',
+					side: '',
+					plates: [''],
+				},
+			],
+		},
+	],
+};
+
+const testForm: NewLicenseForm = {
+	reference: '4206969',
+	email: '',
+	sides: '',
+	hundredBlocks: '',
+	street: 'Georgia St.',
+	roadType: '',
+	signWording: 'No parking',
+	installDate: '2024-04-02',
+	installTime: '16:20',
+	crew: 'Ash, Rusty',
+	signature: '',
+	location: [
+		{
+			name: 'Georgia St.',
+			blocks: [
+				{
+					number: '100',
+					side: 'North',
+					plates: ['ABC123', 'DEF456'],
+				},
+			],
+		},
+	],
 };
 
 export default function Form() {
@@ -30,10 +70,8 @@ export default function Form() {
 	const forms = useContext(FormsContext);
 	const session = useSession();
 	const [form, setForm] = useState(
-		forms.find((form) => form.reference === params.id) || emptyForm
+		forms.find((form) => form.reference === params.id) || testForm
 	);
-
-	const streets = ['Georgia St.', 'Burrard St.', 'Granville St.'];
 
 	// add email and signature to form , email is required to save form
 	useEffect(() => {
@@ -47,7 +85,8 @@ export default function Form() {
 	};
 
 	const handleSave = async () => {
-		const result = await saveForm(form as LicenseForm);
+		console.log('form', form);
+		const result = await saveForm(form as NewLicenseForm);
 		if (result.success) {
 			alert(result.message); // Or set state to show a success message in your component
 		} else {
@@ -65,116 +104,22 @@ export default function Form() {
 	};
 
 	return (
-		<div className="space-y-2 ">
-			<div className="flex space-x-2 justify-between">
-				<div>
-					<label htmlFor="reference">Reference</label>
-					<Input
-						type="text"
-						id="reference"
-						name="reference"
-						value={form?.reference}
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<label htmlFor="signWording">Sign Wording</label>
-					<Input
-						type="text"
-						id="signWording"
-						name="signWording"
-						value={form?.signWording}
-						onChange={handleChange}
-					/>
-				</div>
-			</div>
-			<div className="flex space-x-2 justify-between">
-				<div>
-					<label htmlFor="signature">Signature</label>
-					<Input
-						type="text"
-						id="signature"
-						name="signature"
-						value={form?.signature}
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<label htmlFor="crew">Crew</label>
-					<Input
-						type="text"
-						id="crew"
-						name="crew"
-						value={form?.crew}
-						onChange={handleChange}
-					/>
-				</div>
-			</div>
-			<div className="flex space-x-2 justify-between">
-				<div>
-					<label htmlFor="installDate">Install Date</label>
-					<Input
-						type="date"
-						id="installDate"
-						name="installDate"
-						value={form?.installDate}
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<label htmlFor="installTime">Install Time</label>
-					<Input
-						type="time"
-						id="installTime"
-						name="installTime"
-						value={form?.installTime}
-						onChange={handleChange}
-					/>
-				</div>
-			</div>
-			<StreetInput />
+		<>
+			<TopNav />
+			<div className="space-y-2 py-10">
+				<Essential form={form} handleChange={handleChange} />
+				<StreetInput />
 
-			{/* <div>
-				<label htmlFor="sides">Sides</label>
-				<Input
-					type="text"
-					id="sides"
-					name="sides"
-					value={form?.sides}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="hundredBlocks">Hundred Blocks</label>
-				<Input
-					type="text"
-					id="hundredBlocks"
-					name="hundredBlocks"
-					value={form?.hundredBlocks}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label htmlFor="street">Street</label>
-				<Input
-					type="text"
-					id="street"
-					name="street"
-					value={form?.street}
-					placeholder="e.g. Georgia St. "
-					onChange={handleChange}
-				/>
-			</div> */}
-
-			{/* Quick fix to get the button out of the way, need to make the parrent 
+				{/* Quick fix to get the button out of the way, need to make the parrent 
 			div height full screen and then position these buttons at the bottom */}
-			<div className="absolute bottom-52">
-				{params.id === 'new' ? (
-					<Button onClick={handleSave}>Save</Button>
-				) : (
-					<Button onClick={handleUpdate}>Update</Button>
-				)}
+				<div className="absolute bottom-52">
+					{params.id === 'new' ? (
+						<Button onClick={handleSave}>Save</Button>
+					) : (
+						<Button onClick={handleUpdate}>Update</Button>
+					)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }

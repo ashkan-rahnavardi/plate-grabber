@@ -31,7 +31,7 @@ export default function StreetInput() {
 	return (
 		<div className="w-full ">
 			<div className="flex pb-8">
-				<div className="w-full flex justify-around space-x-4">
+				<div className="w-full flex justify-between space-x-4">
 					<div>
 						<label htmlFor="street">Street</label>
 						<Input
