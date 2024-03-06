@@ -4,7 +4,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 const BlocksSchema = new Schema<Blocks>({
 	number: { type: String, required: true },
 	side: { type: String, required: true },
-	plates: [{ type: [String], required: false }],
+	plates: { type: [String], required: false },
 });
 
 const StreetSchema = new Schema<Street>({
