@@ -28,3 +28,9 @@ export type LicenseForm = {
 };
 
 export type NewLicenseForm = Omit<LicenseForm, '_id'>;
+
+export type GetFormsReturn = {
+	success: boolean;
+	data?: LicenseForm[];
+	message?: string;
+};
