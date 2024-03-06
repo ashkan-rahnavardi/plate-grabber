@@ -1,7 +1,12 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
+import { convertToPlainObject } from '@/lib/utils';
 import FormModel from '@/models/form';
-import { LicenseForm, NewLicenseForm } from '@/types/licenseForm';
+import {
+	GetFormsReturn,
+	LicenseForm,
+	NewLicenseForm,
+} from '@/types/licenseForm';
 
 export async function saveForm(formData: NewLicenseForm) {
 	await dbConnect();
@@ -30,21 +35,24 @@ export async function updateForm(formData: LicenseForm) {
 	}
 }
 
-export async function GetForms(email: string) {
+export async function GetForms(email: string): Promise<GetFormsReturn> {
 	await dbConnect();
 
-	if (email) {
-		const formData = await FormModel.find({ email: email });
-		// convert to plain object
-		const forms = formData.map((form) => {
-			const obj = form.toObject();
-			obj._id = obj._id.toString();
-			return obj;
-		});
-
-		return forms;
-	} else {
-		return [];
+	try {
+		if (email) {
+			const formData = await FormModel.find({ email: email });
+			// convert to plain object
+			const forms = formData.map((form) =>
+				convertToPlainObject(form)
+			) as LicenseForm[];
+			return { success: true, data: forms };
+		} else {
+			return { success: false, message: 'No email provided' };
+		}
+	} catch (err) {
+		console.log(err);
+		const error = err as Error;
+		return { success: false, message: error.message || 'An error occurred' };
 	}
 }
 
