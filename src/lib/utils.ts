@@ -23,7 +23,7 @@ export function getInitials(name: string) {
  * @param obj - The input object to convert, can be a Mongoose Document or a plain object.
  * @returns A plain JavaScript object with all Mongoose Document instances converted.
  */
-function convertToPlainObject(
+export function convertToPlainObject(
 	obj: Document | Record<string, any>
 ): Record<string, any> {
 	// If the input object is a Mongoose Document, use .toObject() to get a plain object.
