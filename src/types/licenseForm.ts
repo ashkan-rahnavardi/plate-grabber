@@ -1,10 +1,12 @@
 export type Blocks = {
+	_id?: string;
 	number: string;
 	side: string;
 	plates: string[];
 };
 
 export type Street = {
+	_id?: string;
 	name: string;
 	blocks: Blocks[];
 };
@@ -26,8 +28,6 @@ export type LicenseForm = {
 	// plates: Record<string, string[]>;
 	// [key: string]: string | string[] | Record<string, string[]>;
 };
-
-export type NewLicenseForm = Omit<LicenseForm, '_id'>;
 
 export type GetFormsReturn = {
 	success: boolean;
