@@ -1,6 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import { AutoComplete } from '@/components/Input/AutoComplete';
+import { LicenseForm } from '@/types/licenseForm';
 import { useState } from 'react';
 
 // TO DO:
@@ -15,13 +18,16 @@ import { useState } from 'react';
 //     - Each row will have a column which side of the street it is on
 //     - Each row will have a column for the plates on that block
 
-export default function StreetInput() {
-	const [streets, setStreets] = useState<string[]>([
-		'Geogia st.',
-		'Burrard st.',
-		'Granville st.',
-	]);
-
+export default function StreetInput({
+	form,
+	setForm,
+}: {
+	form: LicenseForm;
+	setForm: React.Dispatch<React.SetStateAction<LicenseForm>>;
+}) {
+	const [streets, setStreets] = useState<string[]>(
+		form.location.map((loc) => loc.name)
+	);
 	const [newStreet, setNewStreet] = useState('');
 
 	const handleAddStreet = () => {
@@ -34,7 +40,9 @@ export default function StreetInput() {
 				<div className="w-full flex justify-between space-x-4">
 					<div>
 						<label htmlFor="street">Street</label>
-						<Input
+						<AutoComplete />
+
+						{/* <Input
 							multiple
 							type="text"
 							id="street"
@@ -42,7 +50,7 @@ export default function StreetInput() {
 							value={newStreet}
 							placeholder="e.g. Georgia St. "
 							onChange={(e) => setNewStreet(e.target.value)}
-						/>
+						/> */}
 					</div>
 					<div>
 						<label htmlFor="blocks">Blocks</label>
