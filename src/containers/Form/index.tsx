@@ -7,13 +7,13 @@ import TopNav from '@/components/TopNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormsContext } from '@/services/FormsProvider';
-import { LicenseForm, NewLicenseForm } from '@/types/licenseForm';
+import { LicenseForm } from '@/types/licenseForm';
 import { UserSession } from '@/types/userSession';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
-const emptyForm: NewLicenseForm = {
+const emptyForm: LicenseForm = {
 	reference: '',
 	email: '',
 	sides: '',
@@ -39,7 +39,7 @@ const emptyForm: NewLicenseForm = {
 	],
 };
 
-const testForm: NewLicenseForm = {
+const testForm: LicenseForm = {
 	reference: '4206969',
 	email: '',
 	sides: '',
@@ -80,13 +80,13 @@ export default function Form() {
 		setForm({ ...form, email: user.email, signature: user.name });
 	}, []);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setForm({ ...form, [e.target.name]: e.target.value });
-	};
+	// const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setForm({ ...form, [e.target.name]: e.target.value });
+	// };
 
 	const handleSave = async () => {
 		console.log('form', form);
-		const result = await saveForm(form as NewLicenseForm);
+		const result = await saveForm(form as LicenseForm);
 		if (result.success) {
 			alert(result.message); // Or set state to show a success message in your component
 		} else {
@@ -107,7 +107,7 @@ export default function Form() {
 		<>
 			<TopNav />
 			<div className="space-y-2 py-10">
-				<Essential form={form} handleChange={handleChange} />
+				<Essential form={form} setForm={setForm} />
 				<StreetInput />
 
 				{/* Quick fix to get the button out of the way, need to make the parrent 

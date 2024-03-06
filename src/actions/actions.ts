@@ -2,13 +2,9 @@
 import dbConnect from '@/database/dbConnect';
 import { convertToPlainObject } from '@/lib/utils';
 import FormModel from '@/models/form';
-import {
-	GetFormsReturn,
-	LicenseForm,
-	NewLicenseForm,
-} from '@/types/licenseForm';
+import { GetFormsReturn, LicenseForm } from '@/types/licenseForm';
 
-export async function saveForm(formData: NewLicenseForm) {
+export async function saveForm(formData: LicenseForm) {
 	await dbConnect();
 
 	const newForm = new FormModel(formData);
