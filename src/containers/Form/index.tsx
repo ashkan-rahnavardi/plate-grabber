@@ -80,10 +80,6 @@ export default function Form() {
 		setForm({ ...form, email: user.email, signature: user.name });
 	}, []);
 
-	// const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	setForm({ ...form, [e.target.name]: e.target.value });
-	// };
-
 	const handleSave = async () => {
 		console.log('form', form);
 		const result = await saveForm(form as LicenseForm);
@@ -108,7 +104,7 @@ export default function Form() {
 			<TopNav />
 			<div className="space-y-2 py-10">
 				<Essential form={form} setForm={setForm} />
-				<StreetInput />
+				<StreetInput form={form} setForm={setForm} />
 
 				{/* Quick fix to get the button out of the way, need to make the parrent 
 			div height full screen and then position these buttons at the bottom */}
