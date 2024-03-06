@@ -4,11 +4,9 @@ import React from 'react';
 
 export default function Essential({
 	form,
-	// handleChange,
 	setForm,
 }: {
 	form: LicenseForm;
-	// handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	setForm: React.Dispatch<React.SetStateAction<LicenseForm>>;
 }) {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
