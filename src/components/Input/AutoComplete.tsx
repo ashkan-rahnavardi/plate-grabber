@@ -1,8 +1,5 @@
 'use client';
 
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
-import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
 	Command,
@@ -16,35 +13,123 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
-import { AllStreets } from '@/lib/streetNames';
 import { cn } from '@/lib/utils';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import * as React from 'react';
 
-// const frameworks = [
-// 	{
-// 		value: 'next.js',
-// 		label: 'Next.js',
-// 	},
-// 	{
-// 		value: 'sveltekit',
-// 		label: 'SvelteKit',
-// 	},
-// 	{
-// 		value: 'nuxt.js',
-// 		label: 'Nuxt.js',
-// 	},
-// 	{
-// 		value: 'remix',
-// 		label: 'Remix',
-// 	},
-// 	{
-// 		value: 'astro',
-// 		label: 'Astro',
-// 	},
-// ];
+type Option = {
+	value: string;
+	label: string;
+};
 
-export function AutoComplete() {
-	const [open, setOpen] = React.useState(false);
-	const [value, setValue] = React.useState('');
+interface VirtualizedCommandProps {
+	height: string;
+	options: Option[];
+	placeholder: string;
+	selectedOption: string;
+	onSelectOption?: (option: string) => void;
+}
+
+const VirtualizedCommand = ({
+	height,
+	options,
+	placeholder,
+	selectedOption,
+	onSelectOption,
+}: VirtualizedCommandProps) => {
+	const [filteredOptions, setFilteredOptions] =
+		React.useState<Option[]>(options);
+	const parentRef = React.useRef(null);
+
+	const virtualizer = useVirtualizer({
+		count: filteredOptions.length,
+		getScrollElement: () => parentRef.current,
+		estimateSize: () => 35,
+		overscan: 5,
+	});
+
+	const virtualOptions = virtualizer.getVirtualItems();
+
+	const handleSearch = (search: string) => {
+		setFilteredOptions(
+			options.filter((option) =>
+				option.value.toLowerCase().includes(search.toLowerCase() ?? [])
+			)
+		);
+	};
+
+	const handleKeyDown = (event: React.KeyboardEvent) => {
+		if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+			event.preventDefault();
+		}
+	};
+
+	return (
+		<Command shouldFilter={false} onKeyDown={handleKeyDown}>
+			<CommandInput onValueChange={handleSearch} placeholder={placeholder} />
+			<CommandEmpty>No item found.</CommandEmpty>
+			<CommandGroup
+				ref={parentRef}
+				style={{
+					height: height,
+					width: '100%',
+					overflow: 'auto',
+				}}
+			>
+				<div
+					style={{
+						height: `${virtualizer.getTotalSize()}px`,
+						width: '100%',
+						position: 'relative',
+					}}
+				>
+					{virtualOptions.map((virtualOption) => (
+						<CommandItem
+							style={{
+								position: 'absolute',
+								top: 0,
+								left: 0,
+								width: '100%',
+								height: `${virtualOption.size}px`,
+								transform: `translateY(${virtualOption.start}px)`,
+							}}
+							key={filteredOptions[virtualOption.index].value}
+							value={filteredOptions[virtualOption.index].value}
+							onSelect={onSelectOption}
+						>
+							<CheckIcon
+								className={cn(
+									'mr-2 h-4 w-4',
+									selectedOption === filteredOptions[virtualOption.index].value
+										? 'opacity-100'
+										: 'opacity-0'
+								)}
+							/>
+							{filteredOptions[virtualOption.index].label}
+						</CommandItem>
+					))}
+				</div>
+			</CommandGroup>
+		</Command>
+	);
+};
+
+interface VirtualizedComboboxProps {
+	options: string[];
+	searchPlaceholder?: string;
+	width?: string;
+	height?: string;
+}
+
+export function VirtualizedAutoComplete({
+	options,
+	searchPlaceholder = 'Search Streets',
+	width = '200px',
+	height = '300px',
+}: VirtualizedComboboxProps) {
+	const [open, setOpen] = React.useState<boolean>(false);
+	const [selectedOption, setSelectedOption] = React.useState<string>('');
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
@@ -53,84 +138,31 @@ export function AutoComplete() {
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
-					className="w-[200px] justify-between"
+					className="justify-between"
+					style={{
+						width: width,
+					}}
 				>
-					{value || 'Select street...'}
+					{selectedOption
+						? options.find((option) => option === selectedOption)
+						: searchPlaceholder}
 					<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-[200px] p-0">
-				<Command>
-					<CommandInput placeholder="Search street..." />
-					<CommandEmpty>No street found.</CommandEmpty>
-					<CommandGroup>
-						{/* {AllStreets.filter((street) =>
-							street.toLowerCase().includes(value.toLowerCase())
-						)
-							.slice(0, 20)
-							.map((street) => ( */}
-						{AllStreets.map((street) => (
-							<CommandItem
-								key={street}
-								value={street}
-								onSelect={() => {
-									setValue(street);
-									setOpen(false);
-								}}
-							>
-								<CheckIcon
-									className={cn(
-										'mr-2 h-4 w-4',
-										value === street ? 'opacity-100' : 'opacity-0'
-									)}
-								/>
-								{street}
-							</CommandItem>
-						))}
-					</CommandGroup>
-				</Command>
+			<PopoverContent className="p-0" style={{ width: width }}>
+				<VirtualizedCommand
+					height={height}
+					options={options.map((option) => ({ value: option, label: option }))}
+					placeholder={searchPlaceholder}
+					selectedOption={selectedOption}
+					onSelectOption={(currentValue) => {
+						setSelectedOption(
+							currentValue === selectedOption ? '' : currentValue
+						);
+						setOpen(false);
+					}}
+				/>
 			</PopoverContent>
 		</Popover>
-		// <Popover open={open} onOpenChange={setOpen}>
-		// 	<PopoverTrigger asChild>
-		// 		<Button
-		// 			variant="outline"
-		// 			role="combobox"
-		// 			aria-expanded={open}
-		// 			className="w-[200px] justify-between"
-		// 		>
-		// 			{value
-		// 				? frameworks.find((framework) => framework.value === value)?.label
-		// 				: 'Select framework...'}
-		// 			<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-		// 		</Button>
-		// 	</PopoverTrigger>
-		// 	<PopoverContent className="w-[200px] p-0">
-		// 		<Command>
-		// 			<CommandInput placeholder="Search framework..." />
-		// 			<CommandEmpty>No framework found.</CommandEmpty>
-		// 			<CommandGroup>
-		// 				{frameworks.map((framework) => (
-		// 					<CommandItem
-		// 						key={framework.value}
-		// 						value={framework.value}
-		// 						onSelect={(currentValue) => {
-		// 							setValue(currentValue === value ? '' : currentValue);
-		// 							setOpen(false);
-		// 						}}
-		// 					>
-		// 						<CheckIcon
-		// 							className={cn(
-		// 								'mr-2 h-4 w-4',
-		// 								value === framework.value ? 'opacity-100' : 'opacity-0'
-		// 							)}
-		// 						/>
-		// 						{framework.label}
-		// 					</CommandItem>
-		// 				))}
-		// 			</CommandGroup>
-		// 		</Command>
-		// 	</PopoverContent>
-		// </Popover>
 	);
 }

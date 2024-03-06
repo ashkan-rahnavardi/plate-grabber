@@ -2,12 +2,14 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { AutoComplete } from '@/components/Input/AutoComplete';
+import { VirtualizedAutoComplete } from '@/components/Input/AutoComplete';
+import { AllStreets } from '@/lib/streetNames';
 import { LicenseForm } from '@/types/licenseForm';
 import { useState } from 'react';
 
 // TO DO:
-// Create a data type which will be used to store the streets, blocks and plates
+// FIX STYLING FOR AUTOCOMPLETE AND BLOCK, MAYBE PUT BLOCK BELOW STREET AND HAVE THE BUTTON
+// IN THE MIDDLE (HEIGHTWISE) OF THE TWO INPUTS
 
 // The value which is entered in the Blocks input field will have to be split into an array of numbers or strings
 //    - e.g, 100-500 will become [100, 200, 300, 400, 500]
@@ -40,17 +42,7 @@ export default function StreetInput({
 				<div className="w-full flex justify-between space-x-4">
 					<div>
 						<label htmlFor="street">Street</label>
-						<AutoComplete />
-
-						{/* <Input
-							multiple
-							type="text"
-							id="street"
-							name="street"
-							value={newStreet}
-							placeholder="e.g. Georgia St. "
-							onChange={(e) => setNewStreet(e.target.value)}
-						/> */}
+						<VirtualizedAutoComplete options={AllStreets} />
 					</div>
 					<div>
 						<label htmlFor="blocks">Blocks</label>
