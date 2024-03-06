@@ -3,6 +3,7 @@ import { authOptions } from '@/lib/authOptions';
 import { FormsProvider } from '@/services/FormsProvider';
 import { ThemeProvider } from '@/services/theme-provider';
 import '@/styles/globals.css';
+import { GetFormsReturn, LicenseForm } from '@/types/licenseForm';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
@@ -23,10 +24,19 @@ export default async function RootLayout({
 }) {
 	const session = await getServerSession(authOptions);
 
-	let forms = [];
+	let forms: LicenseForm[] = [];
 
 	if (session && session.user) {
-		forms = await GetForms(session.user.email as string);
+		let formResponse: GetFormsReturn = await GetForms(
+			session.user.email as string
+		);
+		if (formResponse.success && formResponse.data) {
+			forms = formResponse.data;
+		} else {
+			// Can do something more useful here, depending on if there was no email
+			// or if there was an error
+			console.log(formResponse.message);
+		}
 	} else {
 		redirect('/api/auth/signin');
 	}
