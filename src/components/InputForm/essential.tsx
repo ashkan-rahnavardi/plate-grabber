@@ -1,14 +1,20 @@
 import { Input } from '@/components/ui/input';
-import { LicenseForm, NewLicenseForm } from '@/types/licenseForm';
+import { LicenseForm } from '@/types/licenseForm';
 import React from 'react';
 
 export default function Essential({
 	form,
-	handleChange,
+	// handleChange,
+	setForm,
 }: {
-	form: LicenseForm | NewLicenseForm;
-	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	form: LicenseForm;
+	// handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	setForm: React.Dispatch<React.SetStateAction<LicenseForm>>;
 }) {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setForm({ ...form, [e.target.name]: e.target.value });
+	};
+
 	return (
 		<>
 			<div className="flex space-x-2 justify-between">
