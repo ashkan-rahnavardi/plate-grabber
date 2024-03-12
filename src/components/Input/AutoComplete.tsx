@@ -51,11 +51,17 @@ const VirtualizedCommand = ({
 
 	const virtualOptions = virtualizer.getVirtualItems();
 
+	// const handleSearch = (search: string) => {
+	// 	setFilteredOptions(
+	// 		options.filter((option) =>
+	// 			option.value.toLowerCase().includes(search.toLowerCase() ?? [])
+	// 		)
+	// 	);
+	// };
+
 	const handleSearch = (search: string) => {
 		setFilteredOptions(
-			options.filter((option) =>
-				option.value.toLowerCase().includes(search.toLowerCase() ?? [])
-			)
+			options.filter((option) => option.value.includes(search ?? []))
 		);
 	};
 
@@ -120,17 +126,20 @@ interface VirtualizedComboboxProps {
 	searchPlaceholder?: string;
 	width?: string;
 	height?: string;
+	selectedOption: string;
+	setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export function VirtualizedAutoComplete({
 	options,
 	searchPlaceholder = 'Search Streets',
 	width = '100%',
-	height = '100%',
+	height = '300px',
+	selectedOption,
+	setSelectedOption,
 }: VirtualizedComboboxProps) {
 	const [open, setOpen] = React.useState<boolean>(false);
-	const [selectedOption, setSelectedOption] = React.useState<string>('');
-
+	// const [selectedOption, setSelectedOption] = React.useState<string>('');
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
@@ -145,7 +154,7 @@ export function VirtualizedAutoComplete({
 				>
 					{selectedOption
 						? options.find((option) => option === selectedOption)
-						: searchPlaceholder}
+						: selectedOption || searchPlaceholder}
 					<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>
