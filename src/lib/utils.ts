@@ -21,7 +21,7 @@ export function getInitials(name: string) {
    Rounds down the start and end of the range to the nearest 100
    so 190-590 will become [100, 200, 300, 400, 500]
 */
-export function parseRangeToHundreds(range: string): string[] {
+export function parseRangeByHundreds(range: string): string[] {
 	// Convert start and end to Numbers, then round down to the nearest 100
 	const [start, end] = range
 		.split('-')
