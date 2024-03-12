@@ -4,21 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AllStreets } from '@/lib/streetNames';
 import { parseRangeByHundreds } from '@/lib/utils';
-import { LicenseForm } from '@/types/licenseForm';
+import { Blocks, LicenseForm, Street } from '@/types/licenseForm';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 
 /* 
-TO DO:
-- FIX STYLING FOR AUTOCOMPLETE AND BLOCK, MAYBE PUT BLOCK BELOW STREET AND HAVE THE BUTTON
-  IN THE MIDDLE (HEIGHTWISE) OF THE TWO INPUTS
-- WRITE FUNCTION TO PARSE THE BLOCKS INPUT INTO AN ARRAY OF NUMBERS
-- MAKE ADD BUTTON ACTUALLY ADD THE STREET AND BLOCKS TO THE FORM
-  
+TO DO: 
 
-The value which is entered in the Blocks input field will have to be split into an array of numbers or strings
-    - e.g, 100-500 will become [100, 200, 300, 400, 500]
- 
+UPDATE FORM CONTEXT PROPERLY WHEN ADDING A NEW STREET
+
 Dynamically create a data table for each street which gets added
      - Each table will have a header with the street name
      - Each table will have a row for each block
@@ -41,16 +35,36 @@ export default function StreetInput({
 	form: LicenseForm;
 	setForm: React.Dispatch<React.SetStateAction<LicenseForm>>;
 }) {
-	const [streets, setStreets] = useState<string[]>(
-		form.location.map((loc) => loc.name)
-	);
+	const [location, setLocation] = useState<Street[]>(form.location);
 
 	const [newStreet, setNewStreet] = useState<string>('');
 	const [newBlocks, setNewBlocks] = useState<string>('');
-	const [parsedBlocks, setParsedBlocks] = useState<string[]>([]);
+
+	const createNewBlocks = (): Blocks[] => {
+		const blocks = parseRangeByHundreds(newBlocks).map((block) => {
+			return {
+				number: block,
+				side: 'Both',
+				plates: [],
+			};
+		});
+		return blocks;
+	};
+
+	const createNewStreet = (): Street => {
+		return {
+			name: newStreet,
+			blocks: createNewBlocks(),
+		};
+	};
 
 	const handleAddLocation = () => {
-		setParsedBlocks(parseRangeByHundreds(newBlocks));
+		const newLocation = createNewStreet();
+		setNewStreet('');
+		setNewBlocks('');
+		setLocation([...location, newLocation]);
+		setForm({ ...form, location: [...location, newLocation] });
+		console.log('form', form);
 	};
 
 	return (
@@ -84,9 +98,6 @@ export default function StreetInput({
 					</Button>
 				</div>
 			</div>
-			{/* {parsedBlocks.map((block) => block + ' ')} */}
-			{/* {AllStreets[4]} */}
-			{' ' + newStreet}
 		</>
 	);
 }

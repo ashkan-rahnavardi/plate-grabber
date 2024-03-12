@@ -3,9 +3,15 @@
 import { LicenseForm } from '@/types/licenseForm';
 import React, { createContext, useContext, useState } from 'react';
 
-type FormsContextType = LicenseForm[];
+interface FormsContextType {
+	forms: LicenseForm[];
+	updateForms: (updatedForms: LicenseForm[]) => void;
+}
 
-export const FormsContext = createContext<FormsContextType>([]);
+export const FormsContext = createContext<FormsContextType>({
+	forms: [],
+	updateForms: () => {},
+});
 
 interface FormsProviderProps {
 	children: React.ReactNode;
@@ -18,7 +24,13 @@ export const FormsProvider: React.FC<FormsProviderProps> = ({
 }) => {
 	const [forms, setForms] = useState<LicenseForm[]>(formsData);
 
+	const updateForms = (updatedForms: LicenseForm[]) => {
+		setForms(updatedForms);
+	};
+
 	return (
-		<FormsContext.Provider value={forms}>{children}</FormsContext.Provider>
+		<FormsContext.Provider value={{ forms, updateForms }}>
+			{children}
+		</FormsContext.Provider>
 	);
 };

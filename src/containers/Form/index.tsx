@@ -67,11 +67,21 @@ const testForm: LicenseForm = {
 
 export default function Form() {
 	const params = useParams();
-	const forms = useContext(FormsContext);
+	const { forms, updateForms } = useContext(FormsContext);
 	const session = useSession();
-	const [form, setForm] = useState(
-		forms.find((form) => form.reference === params.id) || testForm
-	);
+
+	// get form index
+	const formIndex = forms.findIndex((form) => form.reference === params.id);
+
+	// if form exists, get it, else get empty form
+	const initialForm = formIndex !== -1 ? forms[formIndex] : emptyForm;
+
+	// set form state
+	const [form, setForm] = useState(initialForm);
+
+	// const [form, setForm] = useState(
+	// 	forms.find((form) => form.reference === params.id) || testForm
+	// );
 
 	// add email and signature to form , email is required to save form
 	useEffect(() => {
@@ -80,6 +90,17 @@ export default function Form() {
 		setForm({ ...form, email: user.email, signature: user.name });
 	}, []);
 
+	// MAKE SURE THIS WORKS PROPERLY AND ALSO ACCOUNT FOR WHEN THE FORM INDEX
+	// IS -1 AND THE FORM IS NOT FOUND
+	useEffect(() => {
+		if (formIndex !== -1) {
+			const newForms = [...forms];
+			newForms[formIndex] = form;
+			updateForms(newForms);
+		}
+	}, [form]);
+
+	// SAVE FORM TO DATABASE
 	const handleSave = async () => {
 		console.log('form', form);
 		const result = await saveForm(form as LicenseForm);
@@ -89,6 +110,8 @@ export default function Form() {
 			alert(result.message); // Or set state to show an error message
 		}
 	};
+
+	// UPDATE FORM IN DATABASE
 	const handleUpdate = async () => {
 		const result = await updateForm(form as LicenseForm);
 

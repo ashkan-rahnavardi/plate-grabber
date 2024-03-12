@@ -6,7 +6,7 @@ import { FormsContext } from '@/services/FormsProvider';
 import React, { useContext } from 'react';
 
 export default function Page() {
-	const forms = useContext(FormsContext);
+	const { forms, updateForms } = useContext(FormsContext);
 
 	return (
 		<>
