@@ -7,7 +7,6 @@ import { parseRangeByHundreds } from '@/lib/utils';
 import { LicenseForm } from '@/types/licenseForm';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { VirtualizedCombobox } from '../Input/stockAuto';
 
 /* 
 TO DO:
