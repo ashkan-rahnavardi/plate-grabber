@@ -15,6 +15,24 @@ export function getInitials(name: string) {
 		.toUpperCase(); // conver to upercase and return
 }
 
+/* Converts a range of numbers into a list, parsed by 100's
+   e.g. 100-500 will become [100, 200, 300, 400, 500]
+
+   Rounds down the start and end of the range to the nearest 100
+   so 190-590 will become [100, 200, 300, 400, 500]
+*/
+export function parseRangeToHundreds(range: string): string[] {
+	// Convert start and end to Numbers, then round down to the nearest 100
+	const [start, end] = range
+		.split('-')
+		.map((num) => Math.floor(Number(num) / 100) * 100);
+
+	// Create a list of strings from start to end, in increments of 100
+	return Array.from({ length: (end - start) / 100 + 1 }, (_, i) =>
+		(start + i * 100).toString()
+	);
+}
+
 export function validateStreet(street: string) {
 	const types = [
 		'St',
