@@ -125,8 +125,8 @@ interface VirtualizedComboboxProps {
 export function VirtualizedAutoComplete({
 	options,
 	searchPlaceholder = 'Search Streets',
-	width = '200px',
-	height = '300px',
+	width = '100%',
+	height = '100%',
 }: VirtualizedComboboxProps) {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [selectedOption, setSelectedOption] = React.useState<string>('');

@@ -102,7 +102,7 @@ export default function Form() {
 	return (
 		<>
 			<TopNav />
-			<div className="space-y-2 py-10">
+			<div className="space-y-2 py-10 w-full">
 				<Essential form={form} setForm={setForm} />
 				<StreetInput form={form} setForm={setForm} />
 
