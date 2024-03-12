@@ -33,29 +33,6 @@ export function parseRangeByHundreds(range: string): string[] {
 	);
 }
 
-export function validateStreet(street: string) {
-	const types = [
-		'St',
-		'Ave',
-		'Blvd',
-		'Rd',
-		'Dr',
-		'Cres',
-		'Ct',
-		'Ln',
-		'Pl',
-		'Way',
-		'Cir',
-		'Xing',
-		'Hwy',
-		'Loop',
-		'Pass',
-	];
-
-	const streetRegex = /^[a-zA-Z\s]+$/;
-	return streetRegex.test(street);
-}
-
 /**
  * Converts a Mongoose Document or any nested structure containing Mongoose Documents
  * into a plain JavaScript object. This includes converting `_id` fields from ObjectId to string
