@@ -3,6 +3,7 @@
 import { saveForm, updateForm } from '@/actions/actions';
 import Essential from '@/components/InputForm/essential';
 import StreetInput from '@/components/InputForm/street';
+import PlatesTable from '@/components/PlatesTable/platesTable';
 import TopNav from '@/components/TopNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -122,16 +123,19 @@ export default function Form() {
 		}
 	};
 
+	console.log('form', form);
+
 	return (
 		<>
 			<TopNav />
 			<div className="space-y-2 py-10 w-full">
 				<Essential form={form} setForm={setForm} />
 				<StreetInput form={form} setForm={setForm} />
+				<PlatesTable form={form} />
 
 				{/* Quick fix to get the button out of the way, need to make the parrent 
 			div height full screen and then position these buttons at the bottom */}
-				<div className="absolute bottom-52">
+				<div className="pt-8">
 					{params.id === 'new' ? (
 						<Button onClick={handleSave}>Save</Button>
 					) : (

@@ -60,17 +60,17 @@ export function convertToPlainObject(
 		if (result[key] instanceof Document) {
 			result[key] = convertToPlainObject(result[key]);
 		}
-		// If the property is an array, map over it, applying convertToPlainObject to each item.
-		// This handles arrays of Documents, nested objects within arrays, etc.
-		else if (Array.isArray(result[key])) {
-			result[key] = result[key].map((item: Document | Record<string, any>) =>
-				convertToPlainObject(item)
-			);
-		}
-		// If the property is an object (but not null, an array, or a Document), recursively convert it.
-		else if (typeof result[key] === 'object' && result[key] !== null) {
-			result[key] = convertToPlainObject(result[key]);
-		}
+		// // If the property is an array, map over it, applying convertToPlainObject to each item.
+		// // This handles arrays of Documents, nested objects within arrays, etc.
+		// else if (Array.isArray(result[key])) {
+		// 	result[key] = result[key].map((item: Document | Record<string, any>) =>
+		// 		convertToPlainObject(item)
+		// 	);
+		// }
+		// // If the property is an object (but not null, an array, or a Document), recursively convert it.
+		// else if (typeof result[key] === 'object' && result[key] !== null) {
+		// 	result[key] = convertToPlainObject(result[key]);
+		// }
 	});
 
 	// Return the fully converted plain object, suitable for JSON serialization or use in contexts
