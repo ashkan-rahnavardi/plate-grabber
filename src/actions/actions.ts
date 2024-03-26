@@ -1,6 +1,6 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
-import { convertToPlainObject } from '@/lib/utils';
+import { convertIDToString, convertToPlainObject } from '@/lib/utils';
 import FormModel from '@/models/form';
 import { GetFormsReturn, LicenseForm } from '@/types/licenseForm';
 
@@ -36,12 +36,10 @@ export async function GetForms(email: string): Promise<GetFormsReturn> {
 
 	try {
 		if (email) {
-			const formData = await FormModel.find({ email: email });
-			// convert to plain object
-			const forms = formData.map((form) =>
-				convertToPlainObject(form)
-			) as LicenseForm[];
-			return { success: true, data: forms };
+			const formData = (await FormModel.find({
+				email: email,
+			}).lean()) as LicenseForm[];
+			return { success: true, data: formData };
 		} else {
 			return { success: false, message: 'No email provided' };
 		}
