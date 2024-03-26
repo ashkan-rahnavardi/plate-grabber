@@ -77,3 +77,17 @@ export function convertToPlainObject(
 	// where Mongoose Document methods and properties are not needed.
 	return result;
 }
+
+export function merge<T>(
+	a: T[],
+	b: T[],
+	predicate: (aItem: T, bItem: T) => boolean = (a, b) => a === b
+): T[] {
+	const c: T[] = [...a]; // copy to avoid side effects
+	b.forEach((bItem) => {
+		if (!c.some((cItem) => predicate(bItem, cItem))) {
+			c.push(bItem);
+		}
+	});
+	return c;
+}
