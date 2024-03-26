@@ -1,9 +1,10 @@
 'use client';
 import { VirtualizedAutoComplete } from '@/components/Input/AutoComplete';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AllStreets } from '@/lib/streetNames';
-import { parseRangeByHundreds } from '@/lib/utils';
+import { merge, parseRangeByHundreds } from '@/lib/utils';
 import { Blocks, LicenseForm, Street } from '@/types/licenseForm';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
@@ -41,7 +42,17 @@ export default function StreetInput({
 	const [newBlocks, setNewBlocks] = useState<string>('');
 
 	const createNewBlocks = (): Blocks[] => {
-		const blocks = parseRangeByHundreds(newBlocks).map((block) => {
+		const isRange = newBlocks.includes('-');
+		let blockNumbers: string[] = [];
+
+		if (isRange) {
+			blockNumbers = parseRangeByHundreds(newBlocks);
+		} else {
+			let flooredBlock = Math.floor(Number(newBlocks) / 100) * 100;
+			blockNumbers = [flooredBlock.toString()];
+		}
+
+		const blocks = blockNumbers.map((block) => {
 			return {
 				number: block,
 				side: 'Both',
@@ -58,13 +69,61 @@ export default function StreetInput({
 		};
 	};
 
+	const validInput = () => {
+		if (newStreet === '' || newBlocks === '') {
+			alert('Please fill out both fields');
+			return false;
+		}
+		return true;
+	};
+
+	const mergeBlocks = (
+		existingBlocks: Blocks[],
+		newBlocks: Blocks[]
+	): Blocks[] => {
+		// Define a predicate that compares blocks by their 'number' property
+		const blockPredicate = (a: Blocks, b: Blocks) => a.number === b.number;
+
+		// Use the merge function with the custom predicate
+		return merge<Blocks>(existingBlocks, newBlocks, blockPredicate);
+	};
+
 	const handleAddLocation = () => {
-		const newLocation = createNewStreet();
-		setNewStreet('');
-		setNewBlocks('');
-		setLocation([...location, newLocation]);
-		setForm({ ...form, location: [...location, newLocation] });
-		console.log('form', form);
+		if (validInput()) {
+			const newLocation = createNewStreet();
+			setNewStreet('');
+			setNewBlocks('');
+
+			const streetIndex = location.findIndex(
+				(loc) => loc.name === newLocation.name
+			);
+
+			if (streetIndex !== -1) {
+				// Street exists, merge blocks
+				const updatedBlocks = mergeBlocks(
+					location[streetIndex].blocks,
+					newLocation.blocks
+				);
+				const updatedLocation = {
+					...location[streetIndex],
+					blocks: updatedBlocks,
+				};
+				const newLocations = [...location];
+				newLocations[streetIndex] = updatedLocation;
+				setLocation(newLocations);
+				setForm({ ...form, location: newLocations });
+			} else if (location[0].name === '') {
+				// If the first street is empty, replace it with the new street
+				const newLocations = [newLocation];
+				setLocation(newLocations);
+				setForm({ ...form, location: newLocations });
+			} else {
+				// Street doesn't exist, add new street
+				const newLocations = [...location, newLocation];
+				setLocation(newLocations);
+				setForm({ ...form, location: newLocations });
+			}
+		}
 	};
 
 	return (
