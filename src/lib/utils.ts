@@ -47,3 +47,21 @@ export function merge<T>(
 	});
 	return c;
 }
+
+export function transformIds(obj: any): any {
+	if (Array.isArray(obj)) {
+		return obj.map((item) => transformIds(item));
+	} else if (obj !== null && typeof obj === 'object') {
+		const transformed = Object.keys(obj).reduce((acc, key) => {
+			// Convert `_id` to string if it exists and is not already a string (e.g., MongoDB ObjectId)
+			if (key === '_id' && obj[key].toString) {
+				acc[key] = obj[key].toString();
+			} else {
+				acc[key] = transformIds(obj[key]); // Recursively process the property
+			}
+			return acc;
+		}, {} as any);
+		return transformed;
+	}
+	return obj;
+}

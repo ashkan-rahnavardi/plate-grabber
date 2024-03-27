@@ -1,6 +1,6 @@
 'use server';
 import dbConnect from '@/database/dbConnect';
-import { convertIDToString, convertToPlainObject } from '@/lib/utils';
+import { transformIds } from '@/lib/utils';
 import FormModel from '@/models/form';
 import { GetFormsReturn, LicenseForm } from '@/types/licenseForm';
 
@@ -39,7 +39,10 @@ export async function GetForms(email: string): Promise<GetFormsReturn> {
 			const formData = (await FormModel.find({
 				email: email,
 			}).lean()) as LicenseForm[];
-			return { success: true, data: formData };
+
+			const transformedData = formData.map((form) => transformIds(form));
+
+			return { success: true, data: transformedData };
 		} else {
 			return { success: false, message: 'No email provided' };
 		}
