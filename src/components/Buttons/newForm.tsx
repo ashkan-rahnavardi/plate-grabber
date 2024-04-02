@@ -6,7 +6,7 @@ export default function ButtonIcon() {
 	return (
 		<Button asChild variant="default" size="iconCircle">
 			<Link href="/form/new">
-				<PlusIcon className="h-4 w-4" />
+				<PlusIcon className="h-6 w-6" />
 			</Link>
 		</Button>
 	);
