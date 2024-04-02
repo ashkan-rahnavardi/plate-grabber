@@ -4,13 +4,15 @@ import { saveForm, updateForm } from '@/actions/actions';
 import Essential from '@/components/InputForm/essential';
 import StreetInput from '@/components/InputForm/street';
 import PlatesTable from '@/components/PlatesTable/platesTable';
-import TopNav from '@/components/TopNav';
+import TopNav from '@/components/TopNav/formNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormsContext } from '@/services/FormsProvider';
 import { LicenseForm } from '@/types/licenseForm';
 import { UserSession } from '@/types/userSession';
+import { CameraIcon } from '@radix-ui/react-icons';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
@@ -135,12 +137,15 @@ export default function Form() {
 
 				{/* Quick fix to get the button out of the way, need to make the parrent 
 			div height full screen and then position these buttons at the bottom */}
-				<div className="pt-8">
-					{params.id === 'new' ? (
-						<Button onClick={handleSave}>Save</Button>
-					) : (
-						<Button onClick={handleUpdate}>Update</Button>
-					)}
+				<div className="fixed bottom-0 bg-background w-full">
+					<div className="flex justify-between p-4">
+						{params.id === 'new' ? (
+							<Button onClick={handleSave}>Save</Button>
+						) : (
+							<Button onClick={handleUpdate}>Update</Button>
+						)}
+						<Button className="mr-4">Add Plates</Button>
+					</div>
 				</div>
 			</div>
 		</>
