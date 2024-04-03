@@ -5,6 +5,12 @@ import Essential from '@/components/InputForm/essential';
 import StreetInput from '@/components/InputForm/street';
 import PlatesTable from '@/components/PlatesTable/platesTable';
 import TopNav from '@/components/TopNav/formNav';
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormsContext } from '@/services/FormsProvider';
