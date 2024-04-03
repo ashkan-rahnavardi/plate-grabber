@@ -150,7 +150,9 @@ export default function Form() {
 						) : (
 							<Button onClick={handleUpdate}>Update</Button>
 						)}
-						<Button className="mr-4">Add Plates</Button>
+						<Button asChild className="mr-4">
+							<Link href="/camera">Add Plates</Link>
+						</Button>
 					</div>
 				</div>
 			</div>

@@ -31,8 +31,3 @@ export default function PlatesTable({ form }: { form: LicenseForm }) {
 		);
 	});
 }
-
-// <div key={street.name}>
-// 	<h1>{street.name}</h1>
-// 	<DataTable columns={columns} data={street.blocks} />
-// </div>;
