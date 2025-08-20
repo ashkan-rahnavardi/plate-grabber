@@ -27,3 +27,5 @@ A web app prototype for the **City of Vancouver Traffic Department** to streamli
 - Learned to design for long-term scalability rather than retrofitting.  
 
 ---
+## 🔗 Case Study
+Read the full case study with screenshots and detailed breakdown on my [portfolio site](https://your-portfolio-link.com/plategrabber).
